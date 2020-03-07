@@ -1,7 +1,6 @@
 package com.example.jacktest2.controller;
 
 import com.example.jacktest2.entities.Notice;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
@@ -17,17 +16,18 @@ import java.util.List;
 public class RestNoticeController {
 
 
-    // 게시판 - page
+
+    // 게시판 - 목록
     @GetMapping("/notices")
-    public ResponseEntity showNotices(@PageableDefault(size = 10, page = 0) Pageable pageable) {
+    public ResponseEntity getNotices(@PageableDefault(size = 10, page = 0) Pageable pageable) {
 
         return ResponseEntity.ok("test1111");
     }
 
 
-    // 게시판 - getOne
+    // 게시판 - 조회
     @GetMapping("/notices/{id}")
-    public ResponseEntity showNoticeOne(@PathVariable("id") Long id) {
+    public ResponseEntity getNotice(@PathVariable("id") Long id) {
 
         return ResponseEntity.ok("111");
     }
@@ -35,7 +35,7 @@ public class RestNoticeController {
 
     // 게시판 - 제목 중복 조회
     @GetMapping("/notices/title={title}")
-    public ResponseEntity showNoticeTitleEquals(@PathVariable("title") String title) {
+    public ResponseEntity getNoticeTitleEquals(@PathVariable("title") String title) {
 
         return ResponseEntity.ok("111");
     }
@@ -43,7 +43,7 @@ public class RestNoticeController {
 
     // 게시판 - 다운로드
     @GetMapping("/notices/file/{id}")
-    public ResponseEntity showNoticeFileDownload(@PathVariable("id") Long id) {
+    public ResponseEntity downloadNoticeFileData(@PathVariable("id") Long id) {
 
         return ResponseEntity.ok("1111");
     }
@@ -51,7 +51,7 @@ public class RestNoticeController {
 
     // 게시판 - 생성
     @PostMapping("/notices")
-    public ResponseEntity showNoticeAdd(@Valid Notice notice,
+    public ResponseEntity addNotice(@Valid Notice notice,
                                         BindingResult bindingResult,
                                         @RequestParam(value = "uploadFile01", required = false, defaultValue = "NONE") MultipartFile file01) {
 
@@ -61,7 +61,7 @@ public class RestNoticeController {
 
     // 게시판 - 수정
     @PutMapping("/notices/{id}")
-    public ResponseEntity showNoticeEdit(@Valid Notice notice,
+    public ResponseEntity editNotice(@Valid Notice notice,
                                          BindingResult bindingResult,
                                          @PathVariable("id") Long id,
                                          @RequestParam(value = "uploadFile01", required = false, defaultValue = "NONE") MultipartFile file01) {
@@ -72,7 +72,7 @@ public class RestNoticeController {
 
     // 게시판 - 삭제 / 단수
     @DeleteMapping("/notices/{id}")
-    public ResponseEntity showNoticeDelete(@PathVariable("id") Long id) {
+    public ResponseEntity deleteNotice(@PathVariable("id") Long id) {
 
         return ResponseEntity.ok("111");
     }
@@ -80,7 +80,7 @@ public class RestNoticeController {
 
     // 게시판 - 삭제 / 복수
     @DeleteMapping("/notices/{idList}")
-    public ResponseEntity showNoticeDeleteAll(@PathVariable("idList") List<Long> idList) {
+    public ResponseEntity deleteNoticeAll(@PathVariable("idList") List<Long> idList) {
 
         return ResponseEntity.ok("111");
     }
