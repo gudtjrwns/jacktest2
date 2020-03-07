@@ -21,7 +21,7 @@ public class ReplyService {
     }
 
 
-    // 정보
+    // 조회
     public Reply getReplyOneByDistIdEquals(String distName, Long distId) {
         
         if(distName.equals("notice")){

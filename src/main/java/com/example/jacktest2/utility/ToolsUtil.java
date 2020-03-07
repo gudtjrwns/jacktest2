@@ -18,6 +18,7 @@ import java.util.Random;
 @Component
 public class ToolsUtil {
 
+    // 현재 날짜 - timestamp
     public Timestamp currentDateInTimestamp() {
 
         Date newDate = new Date();
@@ -27,6 +28,7 @@ public class ToolsUtil {
     }
 
 
+    // 현재 날짜 - string
     public String timestampToString(Timestamp timeValue) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
@@ -36,6 +38,7 @@ public class ToolsUtil {
     }
 
 
+    // 페이징 값
     public PagingVariables returnPagingVariables(Page page, Pageable pageable) {
         PagingVariables pagingVariables = new PagingVariables();
 
@@ -55,6 +58,7 @@ public class ToolsUtil {
     }
 
 
+    // 파일 업로드
     public String uploadFile(MultipartFile filedata, String uploadPath) throws IOException {
 
         // 랜덤 번호 생성
@@ -78,6 +82,7 @@ public class ToolsUtil {
     }
 
 
+    // 파일 삭제
     public boolean deleteFileIfExists(String savedFileName, String filePath) throws IOException {
 
         File file = new File(filePath + '/' + savedFileName);

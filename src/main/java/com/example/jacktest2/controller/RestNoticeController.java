@@ -3,6 +3,7 @@ package com.example.jacktest2.controller;
 import com.example.jacktest2.entities.Notice;
 import com.example.jacktest2.services.NoticeService;
 import com.example.jacktest2.utility.ToolsUtil;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
@@ -30,6 +31,8 @@ public class RestNoticeController {
     // 게시판 - 목록
     @GetMapping("/notices")
     public ResponseEntity getNotices(@PageableDefault(size = 10, page = 0) Pageable pageable) {
+
+        Page<Notice> noticePage = noticeService.pageAllNotice(pageable);
 
         return ResponseEntity.ok("test1111");
     }

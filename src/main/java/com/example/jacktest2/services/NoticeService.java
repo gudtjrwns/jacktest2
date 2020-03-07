@@ -31,18 +31,18 @@ public class NoticeService {
         this.toolsUtil = toolsUtil;
     }
 
-
     @Value("${notice.uploadPath}")
     private String uploadPath;
 
     
-
+    // 목록
     public Page<Notice> pageAllNotice(Pageable Pageable) {
         Page<Notice> noticePage = noticeRepository.findAllByOrderByCredateDesc(Pageable);
         return noticePage;
     }
 
 
+    // 검색 목록
 //    public Page<Notice> pageAllNoticeDist(Pageable pageable, String searchType, String searchValue){
 //
 //        if(searchType.equals("title")){ // 검색 - 제목
@@ -72,6 +72,7 @@ public class NoticeService {
 //    }
 
 
+    // 저장
     public Notice saveNotice(Notice notice, MultipartFile file01) throws IOException {
         
         Notice noticeDB = new Notice();
@@ -99,6 +100,7 @@ public class NoticeService {
     }
 
 
+    // 수정
     public Notice editNotice(Notice notice, Long id, MultipartFile file01) throws IOException {
 
         Notice noticeOne = noticeRepository.getOne(id);
@@ -120,12 +122,14 @@ public class NoticeService {
     }
 
 
+    // 조회
     public Notice getNoticeOne(Long id){
         Notice noticeOne = noticeRepository.getOne(id);
         return noticeOne;
     }
 
-    
+
+    // 값 조회
     public NoticeValue getNoticeValue(Long id) {
         
         Notice noticeOne = noticeRepository.getOne(id);
@@ -147,17 +151,20 @@ public class NoticeService {
     }
 
 
+    // id 존재 확인
     public Optional<Notice> optionalNotice(Long id) {
         Optional<Notice> byId =  noticeRepository.findById(id);
         return byId;
     }
 
 
+    // 삭제 - 단수
     public void deleteNoticeOne(Long id) {
         noticeRepository.deleteById(id);
     }
 
 
+    // 삭제 - 복수
     public void deleteAllNotice(List<Long> idList) {
         
         for(int i=0; i<idList.size(); i++){
@@ -166,6 +173,7 @@ public class NoticeService {
     }
 
 
+    // 조회수 추가
     public void addViewCount(Long id) {
         Notice noticeOne = noticeRepository.getOne(id);
 
@@ -175,6 +183,7 @@ public class NoticeService {
     }
 
 
+    // 댓글수 추가
     public void addReplyCount(Long id){
         Notice noticeOne = noticeRepository.getOne(id);
 
@@ -183,7 +192,8 @@ public class NoticeService {
         noticeRepository.save(noticeOne);
     }
 
-    
+
+    // 댓글수 삭제
     public void delReplyCount(Long id){
         Notice noticeOne = noticeRepository.getOne(id);
 
@@ -193,12 +203,14 @@ public class NoticeService {
     }
 
 
+    // 제목 중복 조회
     public boolean lookingForTitleEquals(String title) {
         boolean existsByTitleEquals = noticeRepository.existsByTitleEquals(title);
         return existsByTitleEquals;
     }
 
 
+    // 파일 삭제 - 단수
     public boolean delFileData(Long id) throws IOException {
         
         Optional<Notice> byId = noticeRepository.findById(id);
@@ -214,6 +226,7 @@ public class NoticeService {
     }
 
 
+    // 파일 삭제 - 복수
     public void delAllFileData(List<Long> idList) throws IOException {
 
         for(int i=0; i<idList.size(); i++) {
@@ -222,6 +235,7 @@ public class NoticeService {
     }
 
 
+    // 파일 다운로드
     public ResponseEntity<InputStreamResource> downloadNoticeFile(Long noticeId) throws FileNotFoundException, UnsupportedEncodingException {
 
         Optional<Notice> byId = noticeRepository.findById(noticeId);
