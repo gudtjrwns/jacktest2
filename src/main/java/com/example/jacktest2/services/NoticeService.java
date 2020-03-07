@@ -23,11 +23,14 @@ import java.util.Optional;
 @Service
 public class NoticeService {
 
-    @Autowired
-    private NoticeRepository noticeRepository;
+    private final NoticeRepository noticeRepository;
+    private final ToolsUtil toolsUtil;
 
-    @Autowired
-    private ToolsUtil toolsUtil;
+    public NoticeService(NoticeRepository noticeRepository, ToolsUtil toolsUtil) {
+        this.noticeRepository = noticeRepository;
+        this.toolsUtil = toolsUtil;
+    }
+
 
     @Value("${notice.uploadPath}")
     private String uploadPath;

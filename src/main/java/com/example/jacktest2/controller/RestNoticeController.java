@@ -1,6 +1,8 @@
 package com.example.jacktest2.controller;
 
 import com.example.jacktest2.entities.Notice;
+import com.example.jacktest2.services.NoticeService;
+import com.example.jacktest2.utility.ToolsUtil;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +16,14 @@ import java.util.List;
 
 @Controller
 public class RestNoticeController {
+
+    private final NoticeService noticeService;
+    private final ToolsUtil toolsUtil;
+
+    public RestNoticeController (NoticeService noticeService, ToolsUtil toolsUtil) {
+        this.noticeService = noticeService;
+        this.toolsUtil = toolsUtil;
+    }
 
 
 

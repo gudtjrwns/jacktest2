@@ -6,16 +6,19 @@ import com.example.jacktest2.utility.ToolsUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.tools.Tool;
 import java.util.List;
 
 @Service
 public class ReplyService {
 
-    @Autowired
-    private ReplyRepository replyRepository;
+    private final ReplyRepository replyRepository;
+    private final ToolsUtil toolsUtil;
 
-    @Autowired
-    private ToolsUtil toolsUtil;
+    public ReplyService (ReplyRepository replyRepository, ToolsUtil toolsUtil) {
+        this.replyRepository = replyRepository;
+        this.toolsUtil = toolsUtil;
+    }
 
 
     // 정보

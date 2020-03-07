@@ -15,11 +15,13 @@ import javax.validation.Valid;
 @RestController
 public class RestReplyController {
 
-    @Autowired
-    private ReplyService replyService;
+    private final ReplyService replyService;
+    private final ToolsUtil toolsUtil;
 
-    @Autowired
-    private ToolsUtil toolsUtil;
+    public RestReplyController (ReplyService replyService, ToolsUtil toolsUtil) {
+        this.replyService = replyService;
+        this.toolsUtil = toolsUtil;
+    }
 
 
     // 댓글 - 목록
