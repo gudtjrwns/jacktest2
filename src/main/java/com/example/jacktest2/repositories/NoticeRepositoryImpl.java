@@ -4,6 +4,8 @@ import com.example.jacktest2.entities.Notice;
 import com.example.jacktest2.entities.QNotice;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.jpa.JPQLQuery;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 import org.springframework.util.StringUtils;
@@ -19,21 +21,24 @@ public class NoticeRepositoryImpl extends QuerydslRepositorySupport implements N
     }
 
     @Override
-    public List<Notice> findAllLike(String keyword, Pageable pageable) {
+    public Page<Notice> findAllLike(String keyword, Pageable pageable) {
 
-        BooleanBuilder booleanBuilder = new BooleanBuilder();
+        BooleanBuilder builder = new BooleanBuilder();
 
         JPQLQuery<Notice> query = from(qNotice);
 
         if (!StringUtils.isEmpty(keyword)) {
-            booleanBuilder.and(
+            builder.and(
                     qNotice.title.containsIgnoreCase(keyword)
                             .or(qNotice.contents.containsIgnoreCase(keyword))
                             .or(qNotice.writer.containsIgnoreCase(keyword)));
         }
 
-        return getQuerydsl().applyPagination(pageable, query)
-                .where(booleanBuilder)
+        List<Notice> noticeList = getQuerydsl().applyPagination(pageable, query)
+                .where(builder)
                 .fetch();
+        long totalCount = query.fetchCount();
+
+        return new PageImpl<>(noticeList, pageable, totalCount);
     }
 }

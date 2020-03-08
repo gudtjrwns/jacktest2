@@ -25,9 +25,10 @@ public class RestReplyController {
 
 
     // 댓글 - 목록
-    @GetMapping("/{distName}/replies")
+    @GetMapping("/{distName}/{distId}/replies")
     public ResponseEntity getReplies(@PageableDefault(size = 10, page = 0) Pageable pageable,
-                                     @PathVariable("distName") String distName) {
+                                     @PathVariable("distName") String distName,
+                                     @PathVariable("distId") Long distId) {
 
         return ResponseEntity.ok("111");
     }

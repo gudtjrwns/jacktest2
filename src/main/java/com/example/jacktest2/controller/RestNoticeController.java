@@ -38,8 +38,20 @@ public class RestNoticeController {
     }
 
 
+    // 게시판 - 검색 목록
+    @GetMapping("/notices/search")
+    public ResponseEntity getNoticesSearch(@PageableDefault(size = 10, page = 0) Pageable pageable,
+                                           @RequestParam("keyword") String keyword) {
+
+        Page<Notice> noticeSearchPage = noticeService.pageAllNoticeDist(keyword, pageable);
+
+        return ResponseEntity.ok(noticeSearchPage);
+    }
+
+
+
     // 게시판 - 조회
-    @GetMapping("/notices/{id}")
+    @GetMapping("/notice/{id}")
     public ResponseEntity getNotice(@PathVariable("id") Long id) {
 
         return ResponseEntity.ok("111");
@@ -47,7 +59,7 @@ public class RestNoticeController {
 
 
     // 게시판 - 제목 중복 조회
-    @GetMapping("/notices/title={title}")
+    @GetMapping("/notice/title={title}")
     public ResponseEntity getNoticeTitleEquals(@PathVariable("title") String title) {
 
         return ResponseEntity.ok("111");
@@ -55,7 +67,7 @@ public class RestNoticeController {
 
 
     // 게시판 - 다운로드
-    @GetMapping("/notices/file/{id}")
+    @GetMapping("/notice/file/{id}")
     public ResponseEntity downloadNoticeFileData(@PathVariable("id") Long id) {
 
         return ResponseEntity.ok("1111");
@@ -63,7 +75,7 @@ public class RestNoticeController {
 
 
     // 게시판 - 생성
-    @PostMapping("/notices")
+    @PostMapping("/notice")
     public ResponseEntity addNotice(@Valid Notice notice,
                                         BindingResult bindingResult,
                                         @RequestParam(value = "uploadFile01", required = false, defaultValue = "NONE") MultipartFile file01) {
@@ -73,7 +85,7 @@ public class RestNoticeController {
 
 
     // 게시판 - 수정
-    @PutMapping("/notices/{id}")
+    @PutMapping("/notice/{id}")
     public ResponseEntity editNotice(@Valid Notice notice,
                                          BindingResult bindingResult,
                                          @PathVariable("id") Long id,
@@ -84,7 +96,7 @@ public class RestNoticeController {
 
 
     // 게시판 - 삭제 / 단수
-    @DeleteMapping("/notices/{id}")
+    @DeleteMapping("/notice/{id}")
     public ResponseEntity deleteNotice(@PathVariable("id") Long id) {
 
         return ResponseEntity.ok("111");
@@ -92,7 +104,7 @@ public class RestNoticeController {
 
 
     // 게시판 - 삭제 / 복수
-    @DeleteMapping("/notices/{idList}")
+    @DeleteMapping("/notice/{idList}")
     public ResponseEntity deleteNoticeAll(@PathVariable("idList") List<Long> idList) {
 
         return ResponseEntity.ok("111");

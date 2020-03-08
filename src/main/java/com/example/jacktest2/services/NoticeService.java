@@ -43,33 +43,12 @@ public class NoticeService {
 
 
     // 검색 목록
-//    public Page<Notice> pageAllNoticeDist(Pageable pageable, String searchType, String searchValue){
-//
-//        if(searchType.equals("title")){ // 검색 - 제목
-//            Page<Notice> noticeDistPage = noticeRepository.findAllByTitleContainsOrderByCredateDesc(searchValue, pageable);
-//            return noticeDistPage;
-//
-//        } else if (searchType.equals("contents")) { // 검색 - 내용
-//            Page<Notice> noticeDistPage = noticeRepository.findAllByContentsContainsOrderByCredateDesc(searchValue, pageable);
-//            return noticeDistPage;
-//
-//        } else if (searchType.equals("writer")){ // 검색 - 작성자
-//            Page<Notice> noticeDistPage = noticeRepository.findAllByWriterContainsOrderByCredateDesc(searchValue, pageable);
-//            return noticeDistPage;
-//
-//        } else if (searchType.equals("titleAndContents")) { // 검색 - 제목+내용
-//            Page<Notice> noticeDistPage = noticeRepository.findAllByTitleContainsOrContentsContainsOrderByCredateDesc(searchValue, searchValue, pageable);
-//            return noticeDistPage;
-//
-//        } else if (searchType.equals("contentsAndWriter")) { // 검색 - 내용+작성자
-//            Page<Notice> noticeDistPage = noticeRepository.findAllByContentsContainsOrWriterContainsOrderByCredateDesc(searchValue, searchValue, pageable);
-//            return noticeDistPage;
-//
-//        } else { // 검색 - 제목+내용+작성자
-//            Page<Notice> noticeDistPage = noticeRepository.findAllByTitleContainsOrContentsContainsOrWriterContainsOrderByCredateDesc(searchValue, searchValue, searchValue, pageable);
-//            return noticeDistPage;
-//        }
-//    }
+    public Page<Notice> pageAllNoticeDist(String keyword, Pageable pageable){
+
+        Page<Notice> allLike = noticeRepository.findAllLike(keyword, pageable);
+
+        return allLike;
+    }
 
 
     // 저장
