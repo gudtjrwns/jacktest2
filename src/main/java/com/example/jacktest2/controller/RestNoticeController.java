@@ -41,9 +41,10 @@ public class RestNoticeController {
     // 게시판 - 검색 목록
     @GetMapping("/notices/search")
     public ResponseEntity getNoticesSearch(@PageableDefault(size = 10, page = 0) Pageable pageable,
+                                           @RequestParam("searchType") String searchType,
                                            @RequestParam("keyword") String keyword) {
 
-        Page<Notice> noticeSearchPage = noticeService.pageAllNoticeDist(keyword, pageable);
+        Page<Notice> noticeSearchPage = noticeService.pageAllNoticeDist(searchType, keyword, pageable);
 
         return ResponseEntity.ok(noticeSearchPage);
     }

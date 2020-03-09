@@ -43,9 +43,9 @@ public class NoticeService {
 
 
     // 검색 목록
-    public Page<Notice> pageAllNoticeDist(String keyword, Pageable pageable){
+    public Page<Notice> pageAllNoticeDist(String searchType, String keyword, Pageable pageable){
 
-        Page<Notice> allLike = noticeRepository.findAllLike(keyword, pageable);
+        Page<Notice> allLike = noticeRepository.findAllLike(searchType, keyword, pageable);
 
         return allLike;
     }

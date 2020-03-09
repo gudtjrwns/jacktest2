@@ -25,7 +25,7 @@ public class RestReplyController {
 
 
     // 댓글 - 목록
-    @GetMapping("/{distName}/{distId}/replies")
+    @GetMapping("/replies/{distName}/{distId}")
     public ResponseEntity getReplies(@PageableDefault(size = 10, page = 0) Pageable pageable,
                                      @PathVariable("distName") String distName,
                                      @PathVariable("distId") Long distId) {
@@ -43,7 +43,7 @@ public class RestReplyController {
 
 
     // 댓글 - 생성
-    @PostMapping("/{distName}/{distId}/replies")
+    @PostMapping("/replies/{distName}/{distId}")
     public ResponseEntity addReply(@Valid Reply reply,
                                    BindingResult bindingResult,
                                    @PathVariable("distName") String distName,
