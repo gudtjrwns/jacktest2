@@ -87,10 +87,15 @@ public class RestReplyController {
             throw new BindException(bindingResult);
 
         } else {
-            Reply saveReply = replyService.editReply(id, reply);
-            RestResponse message = new RestResponse(HttpStatus.OK.value(), "Success", saveReply);
+            try {
+                Reply saveReply = replyService.editReply(id, reply);
+                RestResponse message = new RestResponse(HttpStatus.OK.value(), "Success", saveReply);
 
-            return new ResponseEntity(message, HttpStatus.OK);
+                return new ResponseEntity(message, HttpStatus.OK);
+
+            } catch (Exception e) {
+                throw new ReplyNotFoundException(e);
+            }
         }
     }
 

@@ -85,17 +85,18 @@ public class RestNoticeController {
 
 
     // 게시판 - 제목 중복 조회
-    @GetMapping("/notice/title={title}")
-    public ResponseEntity<RestResponse> getNoticeTitleEquals(@PathVariable("title") String title) {
+    @GetMapping("/notice/title")
+    public ResponseEntity<RestResponse> getNoticeTitleEquals(@RequestParam("title") String title) {
 
-        try {
-            boolean isExistsTitle = noticeService.lookingForTitleEquals(title);
-            RestResponse message = new RestResponse(HttpStatus.OK.value(), "Success", isExistsTitle);
+        boolean isExistsTitle = noticeService.lookingForTitleEquals(title);
+
+        if (isExistsTitle) {
+            throw new NoticeTitleAlreadyExistException();
+
+        } else {
+            RestResponse message = new RestResponse(HttpStatus.OK.value(), "Success");
 
             return new ResponseEntity(message, HttpStatus.OK);
-
-        } catch (Exception e) {
-            throw new NoticeTitleAlreadyExistException(e);
         }
     }
 
@@ -144,10 +145,15 @@ public class RestNoticeController {
             throw new BindException(bindingResult);
 
         } else {
-            Notice saveNotice = noticeService.editNotice(notice, id, file01);
-            RestResponse message = new RestResponse(HttpStatus.OK.value(), "Success", saveNotice);
+            try {
+                Notice saveNotice = noticeService.editNotice(notice, id, file01);
+                RestResponse message = new RestResponse(HttpStatus.OK.value(), "Success", saveNotice);
 
-            return new ResponseEntity(message, HttpStatus.OK);
+                return new ResponseEntity(message, HttpStatus.OK);
+
+            } catch (Exception e) {
+                throw new NoticeNotFoundException(e);
+            }
         }
     }
 
