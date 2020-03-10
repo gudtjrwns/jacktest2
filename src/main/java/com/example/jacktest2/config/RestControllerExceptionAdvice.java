@@ -2,15 +2,11 @@ package com.example.jacktest2.config;
 
 import com.example.jacktest2.dao.ErrorResponse;
 import com.example.jacktest2.exception.EntityNotFoundException;
-import com.example.jacktest2.exception.NoticeNotFoundException;
 import com.example.jacktest2.exception.NoticeTitleAlreadyExistException;
-import com.example.jacktest2.exception.ReplyNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindException;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;

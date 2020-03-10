@@ -4,6 +4,7 @@ import com.example.jacktest2.dao.NoticeValue;
 import com.example.jacktest2.dao.RestResponse;
 import com.example.jacktest2.entities.Notice;
 import com.example.jacktest2.exception.NoticeNotFoundException;
+import com.example.jacktest2.exception.NoticeTitleAlreadyExistException;
 import com.example.jacktest2.services.NoticeService;
 import com.example.jacktest2.utility.ToolsUtil;
 import org.springframework.core.io.InputStreamResource;
@@ -11,7 +12,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
@@ -19,9 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
-import javax.xml.ws.Response;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.List;
 
 @RestController
@@ -90,10 +88,15 @@ public class RestNoticeController {
     @GetMapping("/notice/title={title}")
     public ResponseEntity<RestResponse> getNoticeTitleEquals(@PathVariable("title") String title) {
 
-        boolean isExistsTitle = noticeService.lookingForTitleEquals(title);
-        RestResponse message = new RestResponse(HttpStatus.OK.value(), "Success", isExistsTitle);
+        try {
+            boolean isExistsTitle = noticeService.lookingForTitleEquals(title);
+            RestResponse message = new RestResponse(HttpStatus.OK.value(), "Success", isExistsTitle);
 
-        return new ResponseEntity(message, HttpStatus.OK);
+            return new ResponseEntity(message, HttpStatus.OK);
+
+        } catch (Exception e) {
+            throw new NoticeTitleAlreadyExistException(e);
+        }
     }
 
 
@@ -101,10 +104,15 @@ public class RestNoticeController {
     @GetMapping("/notice/file/{id}")
     public ResponseEntity<RestResponse> downloadNoticeFileData(@PathVariable("id") Long id) throws IOException {
 
-        ResponseEntity<InputStreamResource> download = noticeService.downloadNoticeFile(id);
-        RestResponse message = new RestResponse(HttpStatus.OK.value(), "Success", download);
+        try {
+            ResponseEntity<InputStreamResource> download = noticeService.downloadNoticeFile(id);
+            RestResponse message = new RestResponse(HttpStatus.OK.value(), "Success", download);
 
-        return new ResponseEntity(message, HttpStatus.OK);
+            return new ResponseEntity(message, HttpStatus.OK);
+
+        } catch (Exception e) {
+            throw new NoticeNotFoundException(e);
+        }
     }
 
 

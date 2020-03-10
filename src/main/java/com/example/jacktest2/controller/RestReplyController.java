@@ -2,6 +2,7 @@ package com.example.jacktest2.controller;
 
 import com.example.jacktest2.dao.RestResponse;
 import com.example.jacktest2.entities.Reply;
+import com.example.jacktest2.exception.ReplyNotFoundException;
 import com.example.jacktest2.services.ReplyService;
 import com.example.jacktest2.utility.ToolsUtil;
 import org.springframework.http.HttpStatus;
@@ -30,10 +31,15 @@ public class RestReplyController {
     public ResponseEntity<RestResponse> getReplies(@PathVariable("distName") String distName,
                                                    @PathVariable("distId") Long distId) {
 
-        List<Reply> replyList = replyService.listAllReplyByDistIdEquals(distName, distId);
-        RestResponse message = new RestResponse(HttpStatus.OK.value(), "Success", replyList);
+        try {
+            List<Reply> replyList = replyService.listAllReplyByDistIdEquals(distName, distId);
+            RestResponse message = new RestResponse(HttpStatus.OK.value(), "Success", replyList);
 
-        return new ResponseEntity(message, HttpStatus.OK);
+            return new ResponseEntity(message, HttpStatus.OK);
+
+        } catch (Exception e) {
+            throw new ReplyNotFoundException(e);
+        }
     }
 
 
@@ -41,10 +47,15 @@ public class RestReplyController {
     @GetMapping("/replies/{id}")
     public ResponseEntity<RestResponse> getReply(@PathVariable("id") Long id) {
 
-        Reply replyOne = replyService.getReplyOne(id);
-        RestResponse message = new RestResponse(HttpStatus.OK.value(), "Success", replyOne);
+        try {
+            Reply replyOne = replyService.getReplyOne(id);
+            RestResponse message = new RestResponse(HttpStatus.OK.value(), "Success", replyOne);
 
-        return new ResponseEntity(message, HttpStatus.OK);
+            return new ResponseEntity(message, HttpStatus.OK);
+
+        } catch (Exception e) {
+            throw new ReplyNotFoundException(e);
+        }
     }
 
 
@@ -88,9 +99,14 @@ public class RestReplyController {
     @DeleteMapping("/replies/{id}")
     public ResponseEntity<RestResponse> deleteReply(@PathVariable("id") Long id) {
 
-        replyService.deleteReply(id);
-        RestResponse message = new RestResponse(HttpStatus.OK.value(), "Success");
+        try {
+            replyService.deleteReply(id);
+            RestResponse message = new RestResponse(HttpStatus.OK.value(), "Success");
 
-        return new ResponseEntity(message, HttpStatus.OK);
+            return new ResponseEntity(message, HttpStatus.OK);
+
+        } catch (Exception e) {
+            throw new ReplyNotFoundException(e);
+        }
     }
 }
