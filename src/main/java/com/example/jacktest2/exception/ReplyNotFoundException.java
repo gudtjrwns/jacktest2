@@ -1,6 +1,10 @@
 package com.example.jacktest2.exception;
 
+import javax.persistence.EntityNotFoundException;
+
 public class ReplyNotFoundException extends EntityNotFoundException {
+
+    private Throwable cause;
 
     public ReplyNotFoundException() {
         super();
@@ -11,10 +15,11 @@ public class ReplyNotFoundException extends EntityNotFoundException {
     }
 
     public ReplyNotFoundException(String message, Throwable cause) {
-        super(message, cause);
+        super(message);
+        this.cause = cause;
     }
 
     public ReplyNotFoundException(Throwable cause) {
-        super(cause);
+        this.cause = cause;
     }
 }

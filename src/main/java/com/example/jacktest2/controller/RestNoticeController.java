@@ -44,8 +44,8 @@ public class RestNoticeController {
 
             return new ResponseEntity(message, HttpStatus.OK);
 
-        } catch (Exception e) {
-            throw new NoticeNotFoundException("게시글");
+        } catch (NoticeNotFoundException e) {
+            throw new NoticeNotFoundException("게시글 정보를 확인할 수 없습니다.", e);
         }
     }
 
@@ -61,8 +61,8 @@ public class RestNoticeController {
 
             return new ResponseEntity(message, HttpStatus.OK);
 
-        } catch (Exception e) {
-            throw new NoticeNotFoundException("게시글");
+        } catch (NoticeNotFoundException e) {
+            throw new NoticeNotFoundException("게시글 정보를 확인할 수 없습니다.", e);
         }
     }
 
@@ -78,8 +78,8 @@ public class RestNoticeController {
 
             return new ResponseEntity(message, HttpStatus.OK);
 
-        } catch (Exception e) {
-            throw new NoticeNotFoundException("게시글");
+        } catch (NoticeNotFoundException e) {
+            throw new NoticeNotFoundException("게시글 정보를 확인할 수 없습니다.", e);
         }
     }
 
@@ -111,8 +111,8 @@ public class RestNoticeController {
 
             return new ResponseEntity(message, HttpStatus.OK);
 
-        } catch (Exception e) {
-            throw new NoticeNotFoundException("게시글");
+        } catch (NoticeNotFoundException e) {
+            throw new NoticeNotFoundException("게시글 정보를 확인할 수 없습니다.", e);
         }
     }
 
@@ -151,8 +151,8 @@ public class RestNoticeController {
 
                 return new ResponseEntity(message, HttpStatus.OK);
 
-            } catch (Exception e) {
-                throw new NoticeNotFoundException("게시글");
+            } catch (NoticeNotFoundException e) {
+                throw new NoticeNotFoundException("게시글 정보를 확인할 수 없습니다.", e);
             }
         }
     }
@@ -168,8 +168,8 @@ public class RestNoticeController {
 
             return new ResponseEntity(message, HttpStatus.OK);
 
-        } catch (Exception e) {
-            throw new NoticeNotFoundException("게시글");
+        } catch (NoticeNotFoundException e) {
+            throw new NoticeNotFoundException(e.getMessage(), e);
         }
     }
 
@@ -184,8 +184,8 @@ public class RestNoticeController {
 
             return new ResponseEntity(message, HttpStatus.OK);
 
-        } catch (Exception e) {
-            throw new NoticeNotFoundException("게시글");
+        } catch (NoticeNotFoundException e) {
+            throw new NoticeNotFoundException("게시글 정보를 확인할 수 없습니다.", e);
         }
     }
 

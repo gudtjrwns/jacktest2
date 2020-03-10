@@ -2,6 +2,7 @@ package com.example.jacktest2.controller;
 
 import com.example.jacktest2.dao.RestResponse;
 import com.example.jacktest2.entities.Reply;
+import com.example.jacktest2.exception.NoticeNotFoundException;
 import com.example.jacktest2.exception.ReplyNotFoundException;
 import com.example.jacktest2.services.ReplyService;
 import com.example.jacktest2.utility.ToolsUtil;
@@ -37,8 +38,8 @@ public class RestReplyController {
 
             return new ResponseEntity(message, HttpStatus.OK);
 
-        } catch (Exception e) {
-            throw new ReplyNotFoundException("댓글");
+        } catch (ReplyNotFoundException e) {
+            throw new ReplyNotFoundException("댓글 정보를 확인할 수 없습니다.", e);
         }
     }
 
@@ -53,8 +54,8 @@ public class RestReplyController {
 
             return new ResponseEntity(message, HttpStatus.OK);
 
-        } catch (Exception e) {
-            throw new ReplyNotFoundException("댓글");
+        } catch (ReplyNotFoundException e) {
+            throw new ReplyNotFoundException("댓글 정보를 확인할 수 없습니다.", e);
         }
     }
 
@@ -93,8 +94,8 @@ public class RestReplyController {
 
                 return new ResponseEntity(message, HttpStatus.OK);
 
-            } catch (Exception e) {
-                throw new ReplyNotFoundException("댓글");
+            } catch (ReplyNotFoundException e) {
+                throw new ReplyNotFoundException("댓글 정보를 확인할 수 없습니다.", e);
             }
         }
     }
@@ -110,8 +111,8 @@ public class RestReplyController {
 
             return new ResponseEntity(message, HttpStatus.OK);
 
-        } catch (Exception e) {
-            throw new ReplyNotFoundException("댓글");
+        } catch (ReplyNotFoundException e) {
+            throw new ReplyNotFoundException("댓글 정보를 확인할 수 없습니다.", e);
         }
     }
 }

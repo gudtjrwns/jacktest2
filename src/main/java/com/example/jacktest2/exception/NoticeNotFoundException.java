@@ -1,6 +1,10 @@
 package com.example.jacktest2.exception;
 
+import javax.persistence.EntityNotFoundException;
+
 public class NoticeNotFoundException extends EntityNotFoundException {
+
+    private Throwable cause;
 
     public NoticeNotFoundException() {
         super();
@@ -11,11 +15,11 @@ public class NoticeNotFoundException extends EntityNotFoundException {
     }
 
     public NoticeNotFoundException(String message, Throwable cause) {
-        super(message, cause);
+        super(message);
+        this.cause = cause;
     }
 
     public NoticeNotFoundException(Throwable cause) {
-        super(cause);
+        this.cause = cause;
     }
-
 }
