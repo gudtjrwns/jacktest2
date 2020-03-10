@@ -62,7 +62,7 @@ public class RestControllerExceptionAdvice {
         log.error("================= Handler EntityNotFoundException =================");
         log.error(e.getMessage());
 
-        ErrorResponse message = new ErrorResponse(HttpStatus.NOT_FOUND.value(), "정보를 찾을 수 없습니다.");
+        ErrorResponse message = new ErrorResponse(HttpStatus.NOT_FOUND.value(), e.getMessage() + " 정보를 찾을 수 없습니다.");
 
         return new ResponseEntity(message, HttpStatus.NOT_FOUND);
     }

@@ -45,7 +45,7 @@ public class RestNoticeController {
             return new ResponseEntity(message, HttpStatus.OK);
 
         } catch (Exception e) {
-            throw new NoticeNotFoundException(e);
+            throw new NoticeNotFoundException("게시글");
         }
     }
 
@@ -62,7 +62,7 @@ public class RestNoticeController {
             return new ResponseEntity(message, HttpStatus.OK);
 
         } catch (Exception e) {
-            throw new NoticeNotFoundException(e);
+            throw new NoticeNotFoundException("게시글");
         }
     }
 
@@ -79,7 +79,7 @@ public class RestNoticeController {
             return new ResponseEntity(message, HttpStatus.OK);
 
         } catch (Exception e) {
-            throw new NoticeNotFoundException(e);
+            throw new NoticeNotFoundException("게시글");
         }
     }
 
@@ -112,7 +112,7 @@ public class RestNoticeController {
             return new ResponseEntity(message, HttpStatus.OK);
 
         } catch (Exception e) {
-            throw new NoticeNotFoundException(e);
+            throw new NoticeNotFoundException("게시글");
         }
     }
 
@@ -152,7 +152,7 @@ public class RestNoticeController {
                 return new ResponseEntity(message, HttpStatus.OK);
 
             } catch (Exception e) {
-                throw new NoticeNotFoundException(e);
+                throw new NoticeNotFoundException("게시글");
             }
         }
     }
@@ -169,7 +169,7 @@ public class RestNoticeController {
             return new ResponseEntity(message, HttpStatus.OK);
 
         } catch (Exception e) {
-            throw new NoticeNotFoundException(e);
+            throw new NoticeNotFoundException("게시글");
         }
     }
 
@@ -185,7 +185,7 @@ public class RestNoticeController {
             return new ResponseEntity(message, HttpStatus.OK);
 
         } catch (Exception e) {
-            throw new NoticeNotFoundException(e);
+            throw new NoticeNotFoundException("게시글");
         }
     }
 

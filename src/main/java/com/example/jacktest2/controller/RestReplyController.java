@@ -38,7 +38,7 @@ public class RestReplyController {
             return new ResponseEntity(message, HttpStatus.OK);
 
         } catch (Exception e) {
-            throw new ReplyNotFoundException(e);
+            throw new ReplyNotFoundException("댓글");
         }
     }
 
@@ -54,7 +54,7 @@ public class RestReplyController {
             return new ResponseEntity(message, HttpStatus.OK);
 
         } catch (Exception e) {
-            throw new ReplyNotFoundException(e);
+            throw new ReplyNotFoundException("댓글");
         }
     }
 
@@ -94,7 +94,7 @@ public class RestReplyController {
                 return new ResponseEntity(message, HttpStatus.OK);
 
             } catch (Exception e) {
-                throw new ReplyNotFoundException(e);
+                throw new ReplyNotFoundException("댓글");
             }
         }
     }
@@ -111,7 +111,7 @@ public class RestReplyController {
             return new ResponseEntity(message, HttpStatus.OK);
 
         } catch (Exception e) {
-            throw new ReplyNotFoundException(e);
+            throw new ReplyNotFoundException("댓글");
         }
     }
 }
