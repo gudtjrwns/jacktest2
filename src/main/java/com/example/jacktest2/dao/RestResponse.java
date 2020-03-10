@@ -5,16 +5,21 @@ public class RestResponse<T> {
 
     private int code;
     private String message;
-    private T result;
+    private T data;
 
     public RestResponse(){
 
     }
 
-    public RestResponse(int code, String message, T result) {
+    public RestResponse(int code, String message) {
         this.code = code;
         this.message = message;
-        this.result = result;
+    }
+
+    public RestResponse(int code, String message, T data) {
+        this.code = code;
+        this.message = message;
+        this.data = data;
     }
 
     public int getCode() {
@@ -33,11 +38,11 @@ public class RestResponse<T> {
         this.message = message;
     }
 
-    public T getResult() {
-        return result;
+    public T getData() {
+        return data;
     }
 
-    public void setResult(T result) {
-        this.result = result;
+    public void setData(T data) {
+        this.data = data;
     }
 }

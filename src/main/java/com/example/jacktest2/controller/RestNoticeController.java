@@ -1,21 +1,27 @@
 package com.example.jacktest2.controller;
 
 import com.example.jacktest2.dao.NoticeValue;
+import com.example.jacktest2.dao.RestResponse;
 import com.example.jacktest2.entities.Notice;
+import com.example.jacktest2.exception.NoticeNotFoundException;
 import com.example.jacktest2.services.NoticeService;
 import com.example.jacktest2.utility.ToolsUtil;
+import org.springframework.core.io.InputStreamResource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import javax.xml.ws.Response;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 
 @RestController
@@ -32,81 +38,141 @@ public class RestNoticeController {
 
     // 게시판 - 목록
     @GetMapping("/notices")
-    public Page<Notice> getNotices(@PageableDefault(size = 10, page = 0) Pageable pageable) {
-        // 노컨텐츠 - 예외
-        return noticeService.pageAllNotice(pageable);
+    public ResponseEntity<RestResponse> getNotices(@PageableDefault(size = 10, page = 0) Pageable pageable) {
+
+        try {
+            Page<Notice> noticePage = noticeService.pageAllNotice(pageable);
+            RestResponse message = new RestResponse(HttpStatus.OK.value(), "Success", noticePage);
+
+            return new ResponseEntity(message, HttpStatus.OK);
+
+        } catch (Exception e) {
+            throw new NoticeNotFoundException(e);
+        }
     }
 
 
     // 게시판 - 검색 목록
     @GetMapping("/notices/search")
-    public Page<Notice> getNoticesSearch(@PageableDefault(size = 10, page = 0) Pageable pageable,
+    public ResponseEntity<RestResponse> getNoticesSearch(@PageableDefault(size = 10, page = 0) Pageable pageable,
                                            @RequestParam("keyword") String keyword) {
-        // 노컨텐츠 - 예외
-        return noticeService.pageAllNoticeDist(keyword, pageable);
-//        throw new RuntimeException();
+
+        try {
+            Page<Notice> noticePage = noticeService.pageAllNoticeDist(keyword, pageable);
+            RestResponse message = new RestResponse(HttpStatus.OK.value(), "Success", noticePage);
+
+            return new ResponseEntity(message, HttpStatus.OK);
+
+        } catch (Exception e) {
+            throw new NoticeNotFoundException(e);
+        }
     }
 
 
 
     // 게시판 - 조회
     @GetMapping("/notice/{id}")
-    public NoticeValue getNotice(@PathVariable("id") Long id) {
-        // 노컨텐츠 - 예외
-        return noticeService.getNoticeValue(id);
+    public ResponseEntity<RestResponse> getNotice(@PathVariable("id") Long id) {
+
+        try {
+            NoticeValue noticeOne = noticeService.getNoticeValue(id);
+            RestResponse message = new RestResponse(HttpStatus.OK.value(), "Success", noticeOne);
+
+            return new ResponseEntity(message, HttpStatus.OK);
+
+        } catch (Exception e) {
+            throw new NoticeNotFoundException(e);
+        }
     }
 
 
     // 게시판 - 제목 중복 조회
     @GetMapping("/notice/title={title}")
-    public boolean getNoticeTitleEquals(@PathVariable("title") String title) {
-        // 이미 존재하는 제목 - 예외
-        return noticeService.lookingForTitleEquals(title);
+    public ResponseEntity<RestResponse> getNoticeTitleEquals(@PathVariable("title") String title) {
+
+        boolean isExistsTitle = noticeService.lookingForTitleEquals(title);
+        RestResponse message = new RestResponse(HttpStatus.OK.value(), "Success", isExistsTitle);
+
+        return new ResponseEntity(message, HttpStatus.OK);
     }
 
 
     // 게시판 - 다운로드
-//    @GetMapping("/notice/file/{id}")
-//    public ResponseEntity downloadNoticeFileData(@PathVariable("id") Long id) {
-//
-//        return ResponseEntity.ok("1111");
-//    }
+    @GetMapping("/notice/file/{id}")
+    public ResponseEntity<RestResponse> downloadNoticeFileData(@PathVariable("id") Long id) throws IOException {
+
+        ResponseEntity<InputStreamResource> download = noticeService.downloadNoticeFile(id);
+        RestResponse message = new RestResponse(HttpStatus.OK.value(), "Success", download);
+
+        return new ResponseEntity(message, HttpStatus.OK);
+    }
 
 
     // 게시판 - 생성
     @PostMapping("/notice")
-    public Notice addNotice(@Valid Notice notice,
+    public ResponseEntity<RestResponse> addNotice(@Valid Notice notice,
                                         BindingResult bindingResult,
-                                        @RequestParam(value = "uploadFile01", required = false, defaultValue = "NONE") MultipartFile file01) throws IOException {
-        // 저장 실패 - 예외
-        return noticeService.saveNotice(notice, file01);
+                                        @RequestParam(value = "uploadFile01", required = false, defaultValue = "NONE") MultipartFile file01) throws IOException, BindException {
+
+        if (bindingResult.hasErrors()) {
+            throw new BindException(bindingResult);
+
+        } else {
+            Notice saveNotice = noticeService.saveNotice(notice, file01);
+            RestResponse message = new RestResponse(HttpStatus.OK.value(), "Success", saveNotice);
+
+            return new ResponseEntity(message, HttpStatus.OK);
+        }
     }
 
 
     // 게시판 - 수정
     @PutMapping("/notice/{id}")
-    public Notice editNotice(@Valid Notice notice,
+    public ResponseEntity<RestResponse> editNotice(@Valid Notice notice,
                                          BindingResult bindingResult,
                                          @PathVariable("id") Long id,
-                                         @RequestParam(value = "uploadFile01", required = false, defaultValue = "NONE") MultipartFile file01) throws IOException {
-        // id 확인 어려움 - 예외
-        return noticeService.editNotice(notice, id, file01);
+                                         @RequestParam(value = "uploadFile01", required = false, defaultValue = "NONE") MultipartFile file01) throws IOException, BindException {
+        if (bindingResult.hasErrors()) {
+            throw new BindException(bindingResult);
+
+        } else {
+            Notice saveNotice = noticeService.editNotice(notice, id, file01);
+            RestResponse message = new RestResponse(HttpStatus.OK.value(), "Success", saveNotice);
+
+            return new ResponseEntity(message, HttpStatus.OK);
+        }
     }
 
 
     // 게시판 - 삭제 / 단수
     @DeleteMapping("/notice/{id}")
-    public void deleteNotice(@PathVariable("id") Long id) {
-        // id 확인 어려움 - 예외
-        noticeService.deleteNoticeOne(id);
+    public ResponseEntity<RestResponse> deleteNotice(@PathVariable("id") Long id) {
+
+        try {
+            noticeService.deleteNoticeOne(id);
+            RestResponse message = new RestResponse(HttpStatus.OK.value(), "Success");
+
+            return new ResponseEntity(message, HttpStatus.OK);
+
+        } catch (Exception e) {
+            throw new NoticeNotFoundException(e);
+        }
     }
 
 
     // 게시판 - 삭제 / 복수
     @DeleteMapping("/notice/{idList}")
-    public void deleteNoticeAll(@PathVariable("idList") List<Long> idList) {
-        // id 확인 어려움 - 예외
-        noticeService.deleteAllNotice(idList);
+    public ResponseEntity<RestResponse> deleteNoticeAll(@PathVariable("idList") List<Long> idList) {
+
+        try {
+            noticeService.deleteAllNotice(idList);
+            RestResponse message = new RestResponse(HttpStatus.OK.value(), "Success");
+
+            return new ResponseEntity(message, HttpStatus.OK);
+
+        } catch (Exception e) {
+            throw new NoticeNotFoundException(e);
+        }
     }
 
 

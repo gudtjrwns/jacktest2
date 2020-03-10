@@ -52,12 +52,12 @@ public class ReplyService {
 
 
     // 저장
-    public Reply saveReply(String distName, Long distId, String writer, String contents) {
+    public Reply saveReply(String distName, Long distId, Reply reply) {
 
         Reply replyDB = new Reply();
 
-        replyDB.setWriter(writer);
-        replyDB.setContents(contents);
+        replyDB.setWriter(reply.getWriter());
+        replyDB.setContents(reply.getContents());
         replyDB.setCredate(toolsUtil.currentDateInTimestamp());
         replyDB.setModdate(toolsUtil.currentDateInTimestamp());
 
@@ -72,11 +72,11 @@ public class ReplyService {
 
 
     // 수정
-    public Reply editReply(Long replyId, String contents){
+    public Reply editReply(Long replyId, Reply reply){
 
         Reply replyOne = replyRepository.getOne(replyId);
 
-        replyOne.setContents(contents);
+        replyOne.setContents(reply.getContents());
 
         Reply saveReply = replyRepository.save(replyOne);
 
