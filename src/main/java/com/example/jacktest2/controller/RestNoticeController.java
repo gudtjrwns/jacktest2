@@ -6,8 +6,6 @@ import com.example.jacktest2.entities.Notice;
 import com.example.jacktest2.exception.NoticeNotFoundException;
 import com.example.jacktest2.exception.NoticeTitleAlreadyExistException;
 import com.example.jacktest2.services.NoticeService;
-import com.example.jacktest2.utility.ToolsUtil;
-import org.springframework.core.io.InputStreamResource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -27,11 +25,9 @@ import java.util.List;
 public class RestNoticeController {
 
     private final NoticeService noticeService;
-    private final ToolsUtil toolsUtil;
 
-    public RestNoticeController (NoticeService noticeService, ToolsUtil toolsUtil) {
+    public RestNoticeController (NoticeService noticeService) {
         this.noticeService = noticeService;
-        this.toolsUtil = toolsUtil;
     }
 
 

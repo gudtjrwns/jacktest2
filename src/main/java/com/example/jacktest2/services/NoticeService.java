@@ -4,8 +4,8 @@ import com.example.jacktest2.dao.NoticeValue;
 import com.example.jacktest2.entities.Notice;
 import com.example.jacktest2.exception.NoticeNotFoundException;
 import com.example.jacktest2.repositories.NoticeRepository;
-import com.example.jacktest2.utility.ToolsUtil;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.example.jacktest2.utility.DateUtil;
+import com.example.jacktest2.utility.FileUtil;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.data.domain.Page;
@@ -23,7 +23,6 @@ import java.io.*;
 import java.net.URLEncoder;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static java.util.stream.Collectors.toList;
@@ -32,11 +31,13 @@ import static java.util.stream.Collectors.toList;
 public class NoticeService {
 
     private final NoticeRepository noticeRepository;
-    private final ToolsUtil toolsUtil;
+    private final DateUtil dateUtil;
+    private final FileUtil fileUtil;
 
-    public NoticeService(NoticeRepository noticeRepository, ToolsUtil toolsUtil) {
+    public NoticeService(NoticeRepository noticeRepository, DateUtil dateUtil, FileUtil fileUtil) {
         this.noticeRepository = noticeRepository;
-        this.toolsUtil = toolsUtil;
+        this.dateUtil = dateUtil;
+        this.fileUtil = fileUtil;
     }
 
     @Value("${notice.uploadPath}")
@@ -86,11 +87,11 @@ public class NoticeService {
             noticeDB.setFilepath("NONE");
         } else {
             noticeDB.setFilename(file01.getOriginalFilename());
-            noticeDB.setFilepath(toolsUtil.uploadFile(file01, uploadPath));
+            noticeDB.setFilepath(fileUtil.uploadFile(file01, uploadPath));
         }
 
-        noticeDB.setCredate(toolsUtil.currentDateInTimestamp());
-        noticeDB.setModdate(toolsUtil.currentDateInTimestamp());
+        noticeDB.setCredate(dateUtil.currentDateInTimestamp());
+        noticeDB.setModdate(dateUtil.currentDateInTimestamp());
 
         Notice saveNoticeOne = noticeRepository.save(noticeDB);
 
@@ -105,13 +106,13 @@ public class NoticeService {
 
         noticeOne.setTitle(notice.getTitle());
         noticeOne.setContents(notice.getContents());
-        noticeOne.setModdate(toolsUtil.currentDateInTimestamp());
+        noticeOne.setModdate(dateUtil.currentDateInTimestamp());
 
         if (!file01.isEmpty()) { // 파일 저장
-            toolsUtil.deleteFileIfExists(noticeOne.getFilepath(), uploadPath); // 기존 파일 삭제
+            fileUtil.deleteFileIfExists(noticeOne.getFilepath(), uploadPath); // 기존 파일 삭제
 
             noticeOne.setFilename(file01.getOriginalFilename());
-            noticeOne.setFilepath(toolsUtil.uploadFile(file01, uploadPath));
+            noticeOne.setFilepath(fileUtil.uploadFile(file01, uploadPath));
         }
 
         Notice saveNoticeOne = noticeRepository.save(noticeOne);
@@ -142,8 +143,8 @@ public class NoticeService {
         noticeValueOne.setReplycnt(noticeOne.getReplycnt());
         noticeValueOne.setFilename(noticeOne.getFilename());
         noticeValueOne.setFilepath(noticeOne.getFilepath());
-        noticeValueOne.setCredate(toolsUtil.timestampToString(noticeOne.getCredate()));
-        noticeValueOne.setModdate(toolsUtil.timestampToString(noticeOne.getModdate()));
+        noticeValueOne.setCredate(dateUtil.timestampToString(noticeOne.getCredate()));
+        noticeValueOne.setModdate(dateUtil.timestampToString(noticeOne.getModdate()));
 
         return noticeValueOne;
     }
@@ -214,7 +215,7 @@ public class NoticeService {
 
         if(byId.isPresent()){
             Notice noticeOne = noticeRepository.getOne(id);
-            toolsUtil.deleteFileIfExists(noticeOne.getFilepath(), uploadPath);
+            fileUtil.deleteFileIfExists(noticeOne.getFilepath(), uploadPath);
             return true;
 
         } else {

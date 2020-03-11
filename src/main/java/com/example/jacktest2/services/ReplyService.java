@@ -2,22 +2,20 @@ package com.example.jacktest2.services;
 
 import com.example.jacktest2.entities.Reply;
 import com.example.jacktest2.repositories.ReplyRepository;
-import com.example.jacktest2.utility.ToolsUtil;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.example.jacktest2.utility.DateUtil;
 import org.springframework.stereotype.Service;
 
-import javax.tools.Tool;
 import java.util.List;
 
 @Service
 public class ReplyService {
 
     private final ReplyRepository replyRepository;
-    private final ToolsUtil toolsUtil;
+    private final DateUtil dateUtil;
 
-    public ReplyService (ReplyRepository replyRepository, ToolsUtil toolsUtil) {
+    public ReplyService (ReplyRepository replyRepository, DateUtil dateUtil) {
         this.replyRepository = replyRepository;
-        this.toolsUtil = toolsUtil;
+        this.dateUtil = dateUtil;
     }
 
 
@@ -58,8 +56,8 @@ public class ReplyService {
 
         replyDB.setWriter(reply.getWriter());
         replyDB.setContents(reply.getContents());
-        replyDB.setCredate(toolsUtil.currentDateInTimestamp());
-        replyDB.setModdate(toolsUtil.currentDateInTimestamp());
+        replyDB.setCredate(dateUtil.currentDateInTimestamp());
+        replyDB.setModdate(dateUtil.currentDateInTimestamp());
 
         if(distName.equals("notice")){
             replyDB.setNoticeid(distId);

@@ -2,10 +2,8 @@ package com.example.jacktest2.controller;
 
 import com.example.jacktest2.dao.RestResponse;
 import com.example.jacktest2.entities.Reply;
-import com.example.jacktest2.exception.NoticeNotFoundException;
 import com.example.jacktest2.exception.ReplyNotFoundException;
 import com.example.jacktest2.services.ReplyService;
-import com.example.jacktest2.utility.ToolsUtil;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindException;
@@ -19,11 +17,9 @@ import java.util.List;
 public class RestReplyController {
 
     private final ReplyService replyService;
-    private final ToolsUtil toolsUtil;
 
-    public RestReplyController (ReplyService replyService, ToolsUtil toolsUtil) {
+    public RestReplyController (ReplyService replyService) {
         this.replyService = replyService;
-        this.toolsUtil = toolsUtil;
     }
 
 
