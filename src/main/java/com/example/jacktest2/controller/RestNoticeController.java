@@ -18,6 +18,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.util.List;
@@ -103,16 +104,19 @@ public class RestNoticeController {
 
     // 게시판 - 다운로드
     @GetMapping("/notice/{id}/file")
-    public ResponseEntity<RestResponse> downloadNoticeFileData(@PathVariable("id") Long id) throws IOException {
+    public ResponseEntity<RestResponse> downloadNoticeFileData(@PathVariable("id") Long id, HttpServletResponse response) throws IOException {
 
         try {
-            ResponseEntity<InputStreamResource> download = noticeService.downloadNoticeFile(id);
-            RestResponse message = new RestResponse(HttpStatus.OK.value(), "Success", download);
+            noticeService.downloadFileData(id, response);
+            RestResponse message = new RestResponse(HttpStatus.OK.value(), "Success");
 
             return new ResponseEntity(message, HttpStatus.OK);
 
         } catch (NoticeNotFoundException e) {
             throw new NoticeNotFoundException("게시글 정보를 확인할 수 없습니다.", e);
+
+        } catch (IOException e) {
+            throw new IOException();
         }
     }
 

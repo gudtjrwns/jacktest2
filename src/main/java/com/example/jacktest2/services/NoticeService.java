@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.net.URLEncoder;
 import java.util.List;
@@ -234,6 +235,43 @@ public class NoticeService {
 
         } else {
             return null;
+        }
+    }
+
+
+    // 파일 다운로드 - 2번째 방법
+    public void downloadFileData(Long noticeId, HttpServletResponse response) throws IOException {
+
+        Optional<Notice> byId = noticeRepository.findById(noticeId);
+
+        if (byId.isPresent()) {
+            Notice fileOne = noticeRepository.getOne(noticeId);
+
+            String fullFilePath = uploadPath + "/" + fileOne.getFilepath();
+
+            File file = new File(fullFilePath);
+
+            InputStreamResource resource = new InputStreamResource(new FileInputStream(file));
+
+            response.setHeader("Content-Disposition", "attachment; filename=\"" + URLEncoder.encode(fileOne.getFilename()) + "\";");
+            response.setHeader("Content-Transfer-Encoding", "binary");
+            response.setHeader("Content-Type", MediaType.APPLICATION_PDF_VALUE);
+            response.setHeader("Content-Length", "" + file.length());
+            response.setHeader("Pragma", "no-cache;");
+            response.setHeader("Expires", "-1;");
+
+            try (FileInputStream fis = new FileInputStream(file); OutputStream fos = response.getOutputStream()) {
+                {
+                    int readCount;
+                    while ((readCount = fis.read()) != -1) {
+                        fos.write(readCount);
+                    }
+                }
+
+            } catch (IOException e) {
+                throw new IOException(e);
+
+            }
         }
     }
 }
