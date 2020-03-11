@@ -102,7 +102,7 @@ public class RestNoticeController {
 
 
     // 게시판 - 다운로드
-    @GetMapping("/notice/file/{id}")
+    @GetMapping("/notice/{id}/file")
     public ResponseEntity<RestResponse> downloadNoticeFileData(@PathVariable("id") Long id) throws IOException {
 
         try {

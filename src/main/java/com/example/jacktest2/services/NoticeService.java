@@ -228,7 +228,7 @@ public class NoticeService {
 
             return ResponseEntity.ok()
                     .header(HttpHeaders.CONTENT_DISPOSITION,
-                            "attachment;filename=" + URLEncoder.encode(fileOne.getFilepath(), "UTF-8"))
+                            "attachment;filename=" + URLEncoder.encode(fileOne.getFilename(), "UTF-8"))
                     .contentType(MediaType.APPLICATION_PDF).contentLength(file.length())
                     .body(resource);
 
