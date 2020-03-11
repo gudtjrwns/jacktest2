@@ -21,18 +21,6 @@ public class RestControllerExceptionAdvice {
 
 
 
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    @ExceptionHandler(IllegalStateException.class)
-    public ResponseEntity<ErrorResponse> handlerIllegalStateException(IllegalStateException e) {
-
-        log.error("================= Handler IllegalStateException =================");
-        log.error(e.getMessage());
-
-        ErrorResponse message = new ErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR.value(), "파일을 찾을 수 없습니다.");
-
-        return new ResponseEntity(message, HttpStatus.INTERNAL_SERVER_ERROR);
-    }
-
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(BindException.class)
