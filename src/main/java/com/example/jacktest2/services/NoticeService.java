@@ -13,6 +13,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
@@ -251,27 +252,15 @@ public class NoticeService {
 
             File file = new File(fullFilePath);
 
-            InputStreamResource resource = new InputStreamResource(new FileInputStream(file));
-
-            response.setHeader("Content-Disposition", "attachment; filename=\"" + URLEncoder.encode(fileOne.getFilename()) + "\";");
+            response.setHeader("Content-Disposition", "attachment; filename=\"" + URLEncoder.encode(fileOne.getFilename(), "UTF-8") + "\";");
             response.setHeader("Content-Transfer-Encoding", "binary");
-            response.setHeader("Content-Type", MediaType.APPLICATION_PDF_VALUE);
-            response.setHeader("Content-Length", "" + file.length());
+            response.setContentType("application/download;charset=utf-8");
+            response.setContentLengthLong(file.length());
             response.setHeader("Pragma", "no-cache;");
             response.setHeader("Expires", "-1;");
+            response.setHeader("Connection", "close");
 
-            try (FileInputStream fis = new FileInputStream(file); OutputStream fos = response.getOutputStream()) {
-                {
-                    int readCount;
-                    while ((readCount = fis.read()) != -1) {
-                        fos.write(readCount);
-                    }
-                }
-
-            } catch (IOException e) {
-                throw new IOException(e);
-
-            }
+            FileCopyUtils.copy(new FileInputStream(file), response.getOutputStream());
         }
     }
 }
