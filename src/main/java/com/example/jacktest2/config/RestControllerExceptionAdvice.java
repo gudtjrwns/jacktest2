@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import javax.persistence.EntityNotFoundException;
+import java.io.IOException;
 
 
 @RestControllerAdvice
@@ -20,6 +21,18 @@ public class RestControllerExceptionAdvice {
     private static final Logger log = LoggerFactory.getLogger(RestControllerExceptionAdvice.class);
 
 
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(IOException.class)
+    public ResponseEntity<ErrorResponse> handlerIOException(IOException e) {
+
+        log.error("================= Handler IOException =================");
+        log.error(e.getMessage());
+
+        ErrorResponse message = new ErrorResponse(HttpStatus.BAD_REQUEST.value(), "파일을 찾을 수 없습니다.");
+
+        return new ResponseEntity(message, HttpStatus.BAD_REQUEST);
+    }
 
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
