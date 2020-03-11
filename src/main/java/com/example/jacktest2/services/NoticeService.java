@@ -2,6 +2,7 @@ package com.example.jacktest2.services;
 
 import com.example.jacktest2.dao.NoticeValue;
 import com.example.jacktest2.entities.Notice;
+import com.example.jacktest2.exception.NoticeNotFoundException;
 import com.example.jacktest2.repositories.NoticeRepository;
 import com.example.jacktest2.utility.ToolsUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -261,6 +262,8 @@ public class NoticeService {
             response.setHeader("Connection", "close");
 
             FileCopyUtils.copy(new FileInputStream(file), response.getOutputStream());
+        } else {
+            throw new NoticeNotFoundException();
         }
     }
 }

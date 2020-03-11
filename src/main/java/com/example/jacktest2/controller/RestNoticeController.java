@@ -105,19 +105,10 @@ public class RestNoticeController {
     // 게시판 - 다운로드
     @GetMapping("/notice/{id}/file")
     public ResponseEntity<RestResponse> downloadNoticeFileData(@PathVariable("id") Long id, HttpServletResponse response) throws IOException {
+        noticeService.downloadFileData(id, response);
+        RestResponse message = new RestResponse(HttpStatus.OK.value(), "Success");
 
-        try {
-            noticeService.downloadFileData(id, response);
-            RestResponse message = new RestResponse(HttpStatus.OK.value(), "Success");
-
-            return new ResponseEntity(message, HttpStatus.OK);
-
-        } catch (NoticeNotFoundException e) {
-            throw new NoticeNotFoundException("게시글 정보를 확인할 수 없습니다.", e);
-
-        } catch (IOException e) {
-            throw new IOException();
-        }
+        return new ResponseEntity(message, HttpStatus.OK);
     }
 
 

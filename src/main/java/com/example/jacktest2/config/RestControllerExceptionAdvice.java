@@ -21,14 +21,6 @@ public class RestControllerExceptionAdvice {
     private static final Logger log = LoggerFactory.getLogger(RestControllerExceptionAdvice.class);
 
 
-//    @ResponseStatus(HttpStatus.BAD_REQUEST)
-//    @ExceptionHandler(MissingServletRequestPartException.class)
-//    public ErrorResponse handlerMissingServletRequestPartException(MissingServletRequestPartException e) {
-//        log.error("================= Handler MissingServletRequestPartException =================");
-//        log.error(e.getMessage());
-//        return new ErrorResponse(HttpStatus.BAD_REQUEST.value(), "파일을 찾을 수 없습니다.");
-//    }
-
 
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(IllegalStateException.class)
