@@ -95,10 +95,8 @@ public class ReplyService {
 
         if(distName.equals("notice")){
             List<Reply> replyList = replyRepository.findAllByNoticeidEquals(distId);
-            
-            for(int i=0; i<replyList.size(); i++){
-                replyRepository.deleteById(replyList.get(i).getId());
-            }
+
+            replyList.forEach(i -> replyRepository.deleteById(i.getId()));
         }
     }
 

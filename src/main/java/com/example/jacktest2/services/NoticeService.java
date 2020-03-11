@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -22,6 +23,10 @@ import java.io.*;
 import java.net.URLEncoder;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+import static java.util.stream.Collectors.toList;
 
 @Service
 public class NoticeService {
@@ -50,6 +55,19 @@ public class NoticeService {
         Page<Notice> allLike = noticeRepository.findAllLike(keyword, pageable);
         return allLike;
     }
+
+
+    // 검색 목록 - 스트림 활용
+    public Page<Notice> listAllNoticeDistStream(String keyword, Pageable pageable) {
+        List<Notice> noticeList = noticeRepository.findAll();
+
+        noticeList = noticeList.stream()
+                .filter(x -> x.getWriter().contains(keyword))
+                .collect(toList());
+
+        return new PageImpl(noticeList, pageable, noticeList.size());
+    }
+
 
 
     // 저장
@@ -146,10 +164,9 @@ public class NoticeService {
 
     // 삭제 - 복수
     public void deleteAllNotice(List<Long> idList) {
-        
-        for(int i=0; i<idList.size(); i++){
-            noticeRepository.deleteById(idList.get(i));
-        }
+
+        Stream<Long> stream = idList.stream();
+        stream.forEach(noticeRepository::deleteById);
     }
 
 

@@ -37,30 +37,6 @@ public class NoticeRepositoryImpl extends QuerydslRepositorySupport implements N
 
         List<Notice> noticeList = query.where(builder).fetch();
 
-        // 1번 방법
-////        if (!StringUtils.isEmpty(keyword)) {
-////            builder.and(
-////                    qNotice.title.containsIgnoreCase(keyword)
-////                            .or(qNotice.contents.containsIgnoreCase(keyword))
-////                            .or(qNotice.writer.containsIgnoreCase(keyword)));
-////        }
-////
-////        List<Notice> noticeList =
-////                query
-////                        .where(qNotice.title.like(keyword))
-////                        .fetch();
-//
-//        // 2번 방법
-////        List<Notice> noticeList = getQuerydsl().applyPagination(pageable, query)
-////                .where(qNotice.writer.contains(keyword))
-////                .fetch();
-//
-//        // 3번 방법
-////        List<Notice> noticeList = query.from(qNotice)
-////                .join(qNotice.replies, qReply)
-////                .where(qReply.contents.contains(keyword))
-////                .fetch();
-
         long totalCount = query.fetchCount();
 
         return new PageImpl<>(noticeList, pageable, totalCount);

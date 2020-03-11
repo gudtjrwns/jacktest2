@@ -54,10 +54,27 @@ public class RestNoticeController {
     // 게시판 - 검색 목록
     @GetMapping("/notices/search")
     public ResponseEntity<RestResponse> getNoticesSearch(@PageableDefault(size = 10, page = 0) Pageable pageable,
-                                           @RequestParam("keyword") String keyword) {
+                                                         @RequestParam("keyword") String keyword) {
 
         try {
             Page<Notice> noticePage = noticeService.pageAllNoticeDist(keyword, pageable);
+            RestResponse message = new RestResponse(HttpStatus.OK.value(), "Success", noticePage);
+
+            return new ResponseEntity(message, HttpStatus.OK);
+
+        } catch (NoticeNotFoundException e) {
+            throw new NoticeNotFoundException("게시글 정보를 확인할 수 없습니다.", e);
+        }
+    }
+
+
+    // 게시판 - 작성자 검색 - 스트림 활용
+    @GetMapping("/notices/search/stream")
+    public ResponseEntity<RestResponse> getNoticeSearchTest(@PageableDefault(size = 10, page = 0) Pageable pageable,
+                                            @RequestParam("keyword") String keyword) {
+
+        try {
+            Page<Notice> noticePage = noticeService.listAllNoticeDistStream(keyword, pageable);
             RestResponse message = new RestResponse(HttpStatus.OK.value(), "Success", noticePage);
 
             return new ResponseEntity(message, HttpStatus.OK);
@@ -153,23 +170,7 @@ public class RestNoticeController {
     }
 
 
-    // 게시판 - 삭제 / 단수
-    @DeleteMapping("/notice/{id}")
-    public ResponseEntity<RestResponse> deleteNotice(@PathVariable("id") Long id) {
-
-        try {
-            noticeService.deleteNoticeOne(id);
-            RestResponse message = new RestResponse(HttpStatus.OK.value(), "Success");
-
-            return new ResponseEntity(message, HttpStatus.OK);
-
-        } catch (NoticeNotFoundException e) {
-            throw new NoticeNotFoundException(e.getMessage(), e);
-        }
-    }
-
-
-    // 게시판 - 삭제 / 복수
+    // 게시판 - 삭제
     @DeleteMapping("/notice/{idList}")
     public ResponseEntity<RestResponse> deleteNoticeAll(@PathVariable("idList") List<Long> idList) {
 
