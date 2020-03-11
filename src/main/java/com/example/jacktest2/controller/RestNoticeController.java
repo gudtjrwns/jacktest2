@@ -87,7 +87,7 @@ public class RestNoticeController {
 
 
     // 게시판 - 조회
-    @GetMapping("/notice/{id}")
+    @GetMapping("/notices/{id}")
     public ResponseEntity<RestResponse> getNotice(@PathVariable("id") Long id) {
 
         try {
@@ -103,7 +103,7 @@ public class RestNoticeController {
 
 
     // 게시판 - 제목 중복 조회
-    @GetMapping("/notice/title")
+    @GetMapping("/notices/title")
     public ResponseEntity<RestResponse> getNoticeTitleEquals(@RequestParam("title") String title) {
 
         boolean isExistsTitle = noticeService.lookingForTitleEquals(title);
@@ -120,8 +120,9 @@ public class RestNoticeController {
 
 
     // 게시판 - 다운로드
-    @GetMapping("/notice/{id}/file")
+    @GetMapping("/notices/{id}/file")
     public ResponseEntity<RestResponse> downloadNoticeFileData(@PathVariable("id") Long id, HttpServletResponse response) throws IOException {
+
         noticeService.downloadFileData(id, response);
         RestResponse message = new RestResponse(HttpStatus.OK.value(), "Success");
 
@@ -130,7 +131,7 @@ public class RestNoticeController {
 
 
     // 게시판 - 생성
-    @PostMapping("/notice")
+    @PostMapping("/notices")
     public ResponseEntity<RestResponse> addNotice(@Valid Notice notice,
                                         BindingResult bindingResult,
                                         @RequestParam(value = "uploadFile01", required = false, defaultValue = "NONE") MultipartFile file01) throws IOException, BindException {
@@ -148,7 +149,7 @@ public class RestNoticeController {
 
 
     // 게시판 - 수정
-    @PutMapping("/notice/{id}")
+    @PutMapping("/notices/{id}")
     public ResponseEntity<RestResponse> editNotice(@Valid Notice notice,
                                          BindingResult bindingResult,
                                          @PathVariable("id") Long id,
@@ -171,7 +172,7 @@ public class RestNoticeController {
 
 
     // 게시판 - 삭제
-    @DeleteMapping("/notice/{idList}")
+    @DeleteMapping("/notices/{idList}")
     public ResponseEntity<RestResponse> deleteNoticeAll(@PathVariable("idList") List<Long> idList) {
 
         try {
