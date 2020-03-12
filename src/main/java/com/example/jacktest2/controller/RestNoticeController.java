@@ -3,6 +3,7 @@ package com.example.jacktest2.controller;
 import com.example.jacktest2.dao.NoticeValue;
 import com.example.jacktest2.dao.RestResponse;
 import com.example.jacktest2.entities.Notice;
+import com.example.jacktest2.exception.EntityNotFoundException;
 import com.example.jacktest2.exception.NoticeNotFoundException;
 import com.example.jacktest2.exception.NoticeTitleAlreadyExistException;
 import com.example.jacktest2.services.NoticeService;
@@ -77,7 +78,7 @@ public class RestNoticeController {
 
             return new ResponseEntity(message, HttpStatus.OK);
 
-        } catch (NoticeNotFoundException e) {
+        } catch (EntityNotFoundException e) {
             throw new NoticeNotFoundException("게시글 정보를 확인할 수 없습니다.", e);
         }
     }
@@ -104,10 +105,15 @@ public class RestNoticeController {
     @GetMapping("/notices/{id}/file")
     public ResponseEntity<RestResponse> downloadNoticeFileData(@PathVariable("id") Long id, HttpServletResponse response) throws IOException {
 
-        noticeService.downloadFileData(id, response);
-        RestResponse message = new RestResponse(HttpStatus.OK.value(), "Success");
+        try {
+            noticeService.downloadFileData(id, response);
+            RestResponse message = new RestResponse(HttpStatus.OK.value(), "Success");
 
-        return new ResponseEntity(message, HttpStatus.OK);
+            return new ResponseEntity(message, HttpStatus.OK);
+
+        } catch (EntityNotFoundException e) {
+            throw new NoticeNotFoundException("게시글 정보를 확인할 수 없습니다.", e);
+        }
     }
 
 
@@ -145,7 +151,7 @@ public class RestNoticeController {
 
                 return new ResponseEntity(message, HttpStatus.OK);
 
-            } catch (NoticeNotFoundException e) {
+            } catch (EntityNotFoundException e) {
                 throw new NoticeNotFoundException("게시글 정보를 확인할 수 없습니다.", e);
             }
         }
@@ -162,7 +168,7 @@ public class RestNoticeController {
 
             return new ResponseEntity(message, HttpStatus.OK);
 
-        } catch (NoticeNotFoundException e) {
+        } catch (EntityNotFoundException e) {
             throw new NoticeNotFoundException("게시글 정보를 확인할 수 없습니다.", e);
         }
     }
