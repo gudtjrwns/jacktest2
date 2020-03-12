@@ -21,6 +21,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 public class RestNoticeController {
@@ -72,14 +73,17 @@ public class RestNoticeController {
     @GetMapping("/notices/{id}")
     public ResponseEntity<RestResponse> getNotice(@PathVariable("id") Long id) {
 
-        try {
+        Optional<Notice> byId = noticeService.optionalNotice(id);
+
+        if (byId.isPresent()) {
+            noticeService.addViewCount(id);
             NoticeValue noticeOne = noticeService.getNoticeValue(id);
             RestResponse message = new RestResponse(HttpStatus.OK.value(), "Success", noticeOne);
 
             return new ResponseEntity(message, HttpStatus.OK);
 
-        } catch (EntityNotFoundException e) {
-            throw new NoticeNotFoundException("게시글 정보를 확인할 수 없습니다.", e);
+        } else {
+            throw new NoticeNotFoundException("게시글 정보를 확인할 수 없습니다.");
         }
     }
 
@@ -105,15 +109,10 @@ public class RestNoticeController {
     @GetMapping("/notices/{id}/file")
     public ResponseEntity<RestResponse> downloadNoticeFileData(@PathVariable("id") Long id, HttpServletResponse response) throws IOException {
 
-        try {
-            noticeService.downloadFileData(id, response);
-            RestResponse message = new RestResponse(HttpStatus.OK.value(), "Success");
+        noticeService.downloadFileData(id, response);
+        RestResponse message = new RestResponse(HttpStatus.OK.value(), "Success");
 
-            return new ResponseEntity(message, HttpStatus.OK);
-
-        } catch (EntityNotFoundException e) {
-            throw new NoticeNotFoundException("게시글 정보를 확인할 수 없습니다.", e);
-        }
+        return new ResponseEntity(message, HttpStatus.OK);
     }
 
 
@@ -145,14 +144,16 @@ public class RestNoticeController {
             throw new BindException(bindingResult);
 
         } else {
-            try {
+            Optional<Notice> byId = noticeService.optionalNotice(id);
+
+            if (byId.isPresent()) {
                 Notice saveNotice = noticeService.editNotice(notice, id, file01);
                 RestResponse message = new RestResponse(HttpStatus.OK.value(), "Success", saveNotice);
 
                 return new ResponseEntity(message, HttpStatus.OK);
 
-            } catch (EntityNotFoundException e) {
-                throw new NoticeNotFoundException("게시글 정보를 확인할 수 없습니다.", e);
+            } else {
+                throw new NoticeNotFoundException("게시글 정보를 확인할 수 없습니다.");
             }
         }
     }
@@ -160,17 +161,13 @@ public class RestNoticeController {
 
     // 게시판 - 삭제
     @DeleteMapping("/notices/{idList}")
-    public ResponseEntity<RestResponse> deleteNoticeAll(@PathVariable("idList") List<Long> idList) {
+    public ResponseEntity<RestResponse> deleteNoticeAll(@PathVariable("idList") List<Long> idList) throws IOException {
 
-        try {
-            noticeService.deleteAllNotice(idList);
-            RestResponse message = new RestResponse(HttpStatus.OK.value(), "Success");
+        noticeService.deleteAllNotice(idList);
 
-            return new ResponseEntity(message, HttpStatus.OK);
+        RestResponse message = new RestResponse(HttpStatus.OK.value(), "Success");
 
-        } catch (EntityNotFoundException e) {
-            throw new NoticeNotFoundException("게시글 정보를 확인할 수 없습니다.", e);
-        }
+        return new ResponseEntity(message, HttpStatus.OK);
     }
 
 

@@ -6,6 +6,7 @@ import com.example.jacktest2.utility.DateUtil;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ReplyService {
@@ -19,7 +20,7 @@ public class ReplyService {
     }
 
 
-    // 조회
+    // 목록
     public Reply getReplyOneByDistIdEquals(String distName, Long distId) {
         
         if(distName.equals("notice")){
@@ -31,10 +32,19 @@ public class ReplyService {
     }
 
 
+    // 조회
     public Reply getReplyOne(Long replyId){
         Reply replyOne = replyRepository.getOne(replyId);
         return replyOne;
     }
+
+
+    // 조회 - boolean
+    public Optional<Reply> optionalReply(Long replyId) {
+        Optional<Reply> byId = replyRepository.findById(replyId);
+        return byId;
+    }
+
 
 
     // 목록
@@ -43,6 +53,7 @@ public class ReplyService {
         if(distName.equals("notice")){
             List<Reply> replyList = replyRepository.findAllByNoticeidEqualsOrderByCredateAsc(distId);
             return replyList;
+
         } else {
             return null;
         }
@@ -84,7 +95,6 @@ public class ReplyService {
 
     // 삭제
     public void deleteReply(Long replyId) {
-
         replyRepository.deleteById(replyId);
     }
 

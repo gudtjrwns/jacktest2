@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 public class RestReplyController {
@@ -29,15 +30,10 @@ public class RestReplyController {
     public ResponseEntity<RestResponse> getReplies(@PathVariable("distName") String distName,
                                                    @PathVariable("distId") Long distId) {
 
-        try {
-            List<Reply> replyList = replyService.listAllReplyByDistIdEquals(distName, distId);
-            RestResponse message = new RestResponse(HttpStatus.OK.value(), "Success", replyList);
+        List<Reply> replyList = replyService.listAllReplyByDistIdEquals(distName, distId);
+        RestResponse message = new RestResponse(HttpStatus.OK.value(), "Success", replyList);
 
-            return new ResponseEntity(message, HttpStatus.OK);
-
-        } catch (EntityNotFoundException e) {
-            throw new ReplyNotFoundException("댓글 정보를 확인할 수 없습니다.", e);
-        }
+        return new ResponseEntity(message, HttpStatus.OK);
     }
 
 
@@ -45,14 +41,16 @@ public class RestReplyController {
     @GetMapping("/replies/{id}")
     public ResponseEntity<RestResponse> getReply(@PathVariable("id") Long id) {
 
-        try {
+        Optional<Reply> byId = replyService.optionalReply(id);
+
+        if (byId.isPresent()) {
             Reply replyOne = replyService.getReplyOne(id);
             RestResponse message = new RestResponse(HttpStatus.OK.value(), "Success", replyOne);
 
             return new ResponseEntity(message, HttpStatus.OK);
 
-        } catch (EntityNotFoundException e) {
-            throw new ReplyNotFoundException("댓글 정보를 확인할 수 없습니다.", e);
+        } else {
+            throw new ReplyNotFoundException("댓글 정보를 확인할 수 없습니다.");
         }
     }
 
@@ -85,14 +83,16 @@ public class RestReplyController {
             throw new BindException(bindingResult);
 
         } else {
-            try {
+            Optional<Reply> byId = replyService.optionalReply(id);
+
+            if (byId.isPresent()) {
                 Reply saveReply = replyService.editReply(id, reply);
                 RestResponse message = new RestResponse(HttpStatus.OK.value(), "Success", saveReply);
 
                 return new ResponseEntity(message, HttpStatus.OK);
 
-            } catch (EntityNotFoundException e) {
-                throw new ReplyNotFoundException("댓글 정보를 확인할 수 없습니다.", e);
+            } else {
+                throw new ReplyNotFoundException("댓글 정보를 확인할 수 없습니다.");
             }
         }
     }
@@ -102,14 +102,16 @@ public class RestReplyController {
     @DeleteMapping("/replies/{id}")
     public ResponseEntity<RestResponse> deleteReply(@PathVariable("id") Long id) {
 
-        try {
+        Optional<Reply> byId = replyService.optionalReply(id);
+
+        if (byId.isPresent()) {
             replyService.deleteReply(id);
             RestResponse message = new RestResponse(HttpStatus.OK.value(), "Success");
 
             return new ResponseEntity(message, HttpStatus.OK);
 
-        } catch (EntityNotFoundException e) {
-            throw new ReplyNotFoundException("댓글 정보를 확인할 수 없습니다.", e);
+        } else {
+            throw new ReplyNotFoundException("댓글 정보를 확인할 수 없습니다.");
         }
     }
 }

@@ -164,10 +164,18 @@ public class NoticeService {
 
 
     // 삭제 - 복수
-    public void deleteAllNotice(List<Long> idList) {
+    public void deleteAllNotice(List<Long> idList) throws IOException {
+        for (int i = 0; i < idList.size(); i++) {
+            Optional<Notice> byId = noticeRepository.findById(idList.get(i));
 
-        Stream<Long> stream = idList.stream();
-        stream.forEach(noticeRepository::deleteById);
+            if (byId.isPresent()) {
+                noticeRepository.deleteById(idList.get(i));
+                delFileData(idList.get(i));
+
+            } else {
+                throw new NoticeNotFoundException("게시글 정보를 확인할 수 없습니다.");
+            }
+        }
     }
 
 
@@ -220,15 +228,6 @@ public class NoticeService {
 
         } else {
             return false;
-        }
-    }
-
-
-    // 파일 삭제 - 복수
-    public void delAllFileData(List<Long> idList) throws IOException {
-
-        for(int i=0; i<idList.size(); i++) {
-            delFileData(idList.get(i));
         }
     }
 
