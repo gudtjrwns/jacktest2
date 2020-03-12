@@ -35,15 +35,10 @@ public class RestNoticeController {
     @GetMapping("/notices")
     public ResponseEntity<RestResponse> getNotices(@PageableDefault(size = 10, page = 0) Pageable pageable) {
 
-        try {
-            Page<Notice> noticePage = noticeService.pageAllNotice(pageable);
-            RestResponse message = new RestResponse(HttpStatus.OK.value(), "Success", noticePage);
+        Page<Notice> noticePage = noticeService.pageAllNotice(pageable);
+        RestResponse message = new RestResponse(HttpStatus.OK.value(), "Success", noticePage);
 
-            return new ResponseEntity(message, HttpStatus.OK);
-
-        } catch (NoticeNotFoundException e) {
-            throw new NoticeNotFoundException("게시글 정보를 확인할 수 없습니다.", e);
-        }
+        return new ResponseEntity(message, HttpStatus.OK);
     }
 
 
@@ -52,15 +47,10 @@ public class RestNoticeController {
     public ResponseEntity<RestResponse> getNoticesSearch(@PageableDefault(size = 10, page = 0) Pageable pageable,
                                                          @RequestParam("keyword") String keyword) {
 
-        try {
-            Page<Notice> noticePage = noticeService.pageAllNoticeDist(keyword, pageable);
-            RestResponse message = new RestResponse(HttpStatus.OK.value(), "Success", noticePage);
+        Page<Notice> noticePage = noticeService.pageAllNoticeDist(keyword, pageable);
+        RestResponse message = new RestResponse(HttpStatus.OK.value(), "Success", noticePage);
 
-            return new ResponseEntity(message, HttpStatus.OK);
-
-        } catch (NoticeNotFoundException e) {
-            throw new NoticeNotFoundException("게시글 정보를 확인할 수 없습니다.", e);
-        }
+        return new ResponseEntity(message, HttpStatus.OK);
     }
 
 
@@ -69,15 +59,10 @@ public class RestNoticeController {
     public ResponseEntity<RestResponse> getNoticeSearchTest(@PageableDefault(size = 10, page = 0) Pageable pageable,
                                             @RequestParam("keyword") String keyword) {
 
-        try {
-            Page<Notice> noticePage = noticeService.listAllNoticeDistStream(keyword, pageable);
-            RestResponse message = new RestResponse(HttpStatus.OK.value(), "Success", noticePage);
+        Page<Notice> noticePage = noticeService.listAllNoticeDistStream(keyword, pageable);
+        RestResponse message = new RestResponse(HttpStatus.OK.value(), "Success", noticePage);
 
-            return new ResponseEntity(message, HttpStatus.OK);
-
-        } catch (NoticeNotFoundException e) {
-            throw new NoticeNotFoundException("게시글 정보를 확인할 수 없습니다.", e);
-        }
+        return new ResponseEntity(message, HttpStatus.OK);
     }
 
 
