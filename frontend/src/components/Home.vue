@@ -49,12 +49,12 @@
         </thead>
         <tbody>
         <tr v-for="notice in notices" :key="notice.id">
-<!--          <td>{{notice.id}}</td>-->
-<!--          <td>{{notice.title}}</td>-->
-<!--          <td>{{notice.writer}}</td>-->
-<!--          <td>{{notice.credate}}</td>-->
-<!--          <td>수정</td>-->
-<!--          <td>삭제</td>-->
+          <td>{{notice.id}}</td>
+          <td>{{notice.title}}</td>
+          <td>{{notice.writer}}</td>
+          <td>{{notice.credate}}</td>
+          <td>수정</td>
+          <td>삭제</td>
         </tr>
         </tbody>
       </table>
