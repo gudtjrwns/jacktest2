@@ -51,10 +51,10 @@ module.exports = {
     // Paths
     assetsRoot: path.resolve(__dirname, '../../src/main/resources/static'),
     // assetsRoot: path.resolve(__dirname, '../dist'),
-    assetsSubDirectory: 'static',
-    assetsPublicPath: '/',
-    // assetsSubDirectory: '',
-    // assetsPublicPath: '/static',
+    // assetsSubDirectory: 'static',
+    // assetsPublicPath: './',
+    assetsSubDirectory: '',
+    assetsPublicPath: '/static',
 
     /**
      * Source Maps
