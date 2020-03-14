@@ -21,14 +21,14 @@ var Home = Vue.component('home', {
         '              <div class="pull-left">\n' +
         '                <div class="form-inline">\n' +
         '                  <div class="form-group">\n' +
-        '<router-link to="/add">'+
+        '<router-link to="/add">' +
         '                    <button type="button" class="btn btn-sm btn-info">\n' +
         '                      <i class="far fa-edit"></i> 신규등록\n' +
         '                    </button>\n' +
-        '</router-link>'+
+        '</router-link>' +
         '                  </div>\n' +
         '                  <div class="form-group">\n' +
-        '                    <button type="button" class="btn btn-sm btn-danger">\n' +
+        '                    <button type="button" id="delAllBtn" class="btn btn-sm btn-danger">\n' +
         '                      <i class="far fa-edit"></i> 삭제\n' +
         '                    </button>\n' +
         '                  </div>\n' +
@@ -73,12 +73,13 @@ var Home = Vue.component('home', {
         '                  <td>{{notice.title}}</td>\n' +
         '                  <td class="text-center">{{notice.writer}}</td>\n' +
         '                  <td class="text-center">{{notice.credate}}</td>\n' +
-        '                  <td class="text-center"><router-link to="/edit">수정</router-link></td>\n' +
+        '                  <td class="text-center"><router-link to="/edit" @click="edit(1)">수정</router-link></td>\n' +
         '                  <td class="text-center">삭제</td>\n' +
         '                </tr>\n' +
         '                </tbody>\n' +
         '              </table>\n' +
         '            </div></div>'
+
 
 
 });

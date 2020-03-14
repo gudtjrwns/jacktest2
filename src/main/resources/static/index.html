@@ -26,7 +26,8 @@
       <div class="container body">
         <div class="main_container">
           <div class="x_title">
-            <router-link exact to="/"><h1 class="text-center">Jack's Table</h1></router-link>
+<!--            <router-link exact to="/"><h1 class="text-center">Jack's Table</h1></router-link>-->
+            <router-link exact :to="{name:'home', props:{id: '1'}}" @click="home(1)"><h1 class="text-center">Jack's Table</h1></router-link>
           </div><!--x_title-->
 
           <div class="x_content">
@@ -181,9 +182,9 @@
 
     <script>
       const routes = [
-        {path: '/', component: Home},
-        {path: '/add', component: Add},
-        {path: '/edit', component: Edit}
+        {path: '/', name:'home', component: Home},
+        {path: '/add', name:'add', component: Add},
+        {path: '/edit', name: 'edit', component: Edit}
       ]
 
       const router = new VueRouter({
@@ -198,7 +199,26 @@
         },
 
         router
-      }).$mount('#app')
+      }).$mount('#app');
+
+
+      new Vue ({
+          method: {
+              home(index){
+                  console.log("home-index", index);
+
+              },
+              edit(index) {
+                  console.log("index", index);
+                  this.$router.push({
+                      name: 'edit',
+                      params: {
+                          id: index
+                      }
+                  })
+              }
+          }
+      })
     </script>
 
 
