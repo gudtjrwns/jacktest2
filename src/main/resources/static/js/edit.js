@@ -1,6 +1,15 @@
 console.log("edit 들어왔다");
 
 var Edit = Vue.component('edit', {
+    data: function () {
+        return {
+        }
+    },
+    created() {
+        var id = this.$route.params.id;
+        alert("111");
+        console.log("ididididi", id);
+    },
     template: '<div>\n' +
         '              <div>\n' +
         '                <table class="table table-bordered m-0">\n' +
@@ -13,7 +22,7 @@ var Edit = Vue.component('edit', {
         '                    <th class="text-center">제목</th>\n' +
         '                    <td>\n' +
         '                      <div class="input-group">\n' +
-        '                        <input name="title" type="text" class="form-control" required="required" placeholder="제목을 입력해 주세요."/>\n' +
+        '                        <input v-model="title" name="title" type="text" class="form-control" required="required" placeholder="제목을 입력해 주세요."/>\n' +
         '                        <span class="input-group-btn">\n' +
         '                          <button type="button" class="btn btn-info btn-sm">중복확인</button>\n' +
         '                        </span>\n' +
@@ -23,14 +32,14 @@ var Edit = Vue.component('edit', {
         '                  <tr>\n' +
         '                    <th class="text-center">내용</th>\n' +
         '                    <td>\n' +
-        '                      <textarea name="contents" type="textarea" row="5" style="resize: none; overflow: auto;" class="form-control" placeholder="내용을 입력해 주세요."></textarea>\n' +
+        '                      <textarea v-model="contents" name="contents" type="textarea" row="5" style="resize: none; overflow: auto;" class="form-control" placeholder="내용을 입력해 주세요."></textarea>\n' +
         '                    </td>\n' +
         '                  </tr>\n' +
         '\n' +
         '                  <tr>\n' +
         '                    <th class="text-center">작성자 이름</th>\n' +
         '                    <td>\n' +
-        '                      <input name="writer" type="text" class="form-control" required="required" placeholder="작성자 이름을 입력해 주세요."/>\n' +
+        '                      <input v-model="writer" name="writer" type="text" class="form-control" required="required" placeholder="작성자 이름을 입력해 주세요."/>\n' +
         '                    </td>\n' +
         '                  </tr>\n' +
         '\n' +
@@ -45,7 +54,7 @@ var Edit = Vue.component('edit', {
         '                          </div>\n' +
         '                        </div>\n' +
         '                        <div hidden>\n' +
-        '                          <input name="uploadFile01" type="file" id="iptFile01" accept="" onchange="javascript: document.getElementById(\'iptFileName01\').value=this.files[0].name"/>\n' +
+        '                          <input v-model="uploadFile01" name="uploadFile01" type="file" id="iptFile01" accept="" onchange="javascript: document.getElementById(\'iptFileName01\').value=this.files[0].name"/>\n' +
         '                        </div>\n' +
         '                      </div>\n' +
         '                    </td>\n' +

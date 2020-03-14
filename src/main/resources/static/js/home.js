@@ -68,12 +68,15 @@ var Home = Vue.component('home', {
         '                </tr>\n' +
         '                </thead>\n' +
         '                <tbody>\n' +
-        '                <tr v-for="notice in notices">\n' +
+        '                <tr v-for="(notice, index) in notices" :key="notice.id">\n' +
         '                  <td class="text-center">{{notice.id}}</td>\n' +
         '                  <td>{{notice.title}}</td>\n' +
         '                  <td class="text-center">{{notice.writer}}</td>\n' +
         '                  <td class="text-center">{{notice.credate}}</td>\n' +
-        '                  <td class="text-center"><router-link to="/edit" @click="edit(1)">수정</router-link></td>\n' +
+        '                  <td class="text-center">' +
+        '                   <router-link :to="{name: '+'edit'+', params:{id : index}}">수정</router-link>' +
+        // '                   <router-link to="/edit" @click="edit(1)">수정</router-link>' +
+        '                  </td>\n' +
         '                  <td class="text-center">삭제</td>\n' +
         '                </tr>\n' +
         '                </tbody>\n' +
