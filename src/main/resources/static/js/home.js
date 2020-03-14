@@ -1,5 +1,3 @@
-console.log("home 들어왔다");
-
 var Home = Vue.component('home', {
     data: function () {
         return {
@@ -74,8 +72,8 @@ var Home = Vue.component('home', {
         '                  <td class="text-center">{{notice.writer}}</td>\n' +
         '                  <td class="text-center">{{notice.credate}}</td>\n' +
         '                  <td class="text-center">' +
-        '                   <router-link :to="{name: '+'edit'+', params:{id : index}}">수정</router-link>' +
-        // '                   <router-link to="/edit" @click="edit(1)">수정</router-link>' +
+        // '                   <router-link :to="{name: '+'edit'+', params:{id : index}}" @click="edit(notice)">수정</router-link>' +
+        '                   <router-link to="/edit" @click="edit(notice)">수정</router-link>' +
         '                  </td>\n' +
         '                  <td class="text-center">삭제</td>\n' +
         '                </tr>\n' +

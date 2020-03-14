@@ -197,28 +197,23 @@
         data: {
 
         },
-
         router
       }).$mount('#app');
 
 
-      new Vue ({
-          method: {
-              home(index){
-                  console.log("home-index", index);
-
-              },
-              edit(index) {
-                  console.log("index", index);
-                  this.$router.push({
-                      name: 'edit',
-                      params: {
-                          id: index
-                      }
-                  })
-              }
-          }
-      })
+      // new Vue ({
+      //     method: {
+      //         edit(index) {
+      //             console.log("index", index);
+      //             this.$router.push({
+      //                 name: 'edit',
+      //                 params: {
+      //                     id: index
+      //                 }
+      //             })
+      //         }
+      //     }
+      // })
     </script>
 
 
