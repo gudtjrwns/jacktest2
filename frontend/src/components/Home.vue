@@ -49,7 +49,12 @@
         </thead>
         <tbody>
         <tr v-for="notice in notices" :key="notice.id">
-          <td>{{notice.id}}</td>
+<!--          <td>{{notice.id}}</td>-->
+<!--          <td>{{notice.title}}</td>-->
+<!--          <td>{{notice.writer}}</td>-->
+<!--          <td>{{notice.credate}}</td>-->
+<!--          <td>수정</td>-->
+<!--          <td>삭제</td>-->
         </tr>
         </tbody>
       </table>
@@ -70,9 +75,6 @@
     created() {
       axios.get('http://localhost:8080/notices')
         .then(response => {
-          console.log("response", response);
-          console.log("response", response.data);
-          console.log("response", response.data.data);
           console.log("response", response.data.data.content);
           this.notices = response.data.data.content;
         })
