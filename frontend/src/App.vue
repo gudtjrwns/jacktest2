@@ -1,13 +1,22 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
-    <router-view/>
+    <div class="container body">
+      <div class="main_container">
+        <div class="x_title">
+          <router-link exact :to="{name:'home', props:{id: 1}}"><h1 class="text-center">Jack's Table</h1></router-link>
+        </div>
+
+        <div class="x_content">
+          <router-view/>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'App'
+  name: 'Home'
 }
 </script>
 
