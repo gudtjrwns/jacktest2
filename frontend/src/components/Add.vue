@@ -1,6 +1,6 @@
 <template>
   <div id="Add">
-    <div>
+    <form @submit="addExecute()" enctype="multipart/form-data">
       <div>
         <table class="table table-bordered m-0">
           <colgroup>
@@ -12,7 +12,7 @@
             <th class="text-center">제목</th>
             <td>
               <div class="input-group">
-                <input name="title" type="text" class="form-control" required="required" placeholder="제목을 입력해 주세요."/>
+                <input v-model="form.title" name="title" type="text" class="form-control" required="required" placeholder="제목을 입력해 주세요."/>
                 <span class="input-group-btn">
                           <button type="button" class="btn btn-info btn-sm">중복확인</button>
                         </span>
@@ -22,14 +22,14 @@
           <tr>
             <th class="text-center">내용</th>
             <td>
-              <textarea name="contents" type="textarea" row="5" style="resize: none; overflow: auto;" class="form-control" placeholder="내용을 입력해 주세요."></textarea>
+              <textarea v-model="form.contents" name="contents" type="textarea" row="5" style="resize: none; overflow: auto;" class="form-control" placeholder="내용을 입력해 주세요."></textarea>
             </td>
           </tr>
 
           <tr>
             <th class="text-center">작성자 이름</th>
             <td>
-              <input name="writer" type="text" class="form-control" required="required" placeholder="작성자 이름을 입력해 주세요."/>
+              <input v-model="form.writer" name="writer" type="text" class="form-control" required="required" placeholder="작성자 이름을 입력해 주세요."/>
             </td>
           </tr>
 
@@ -44,7 +44,7 @@
                   </div>
                 </div>
                 <div hidden>
-                  <input name="uploadFile01" type="file" id="iptFile01" accept="" onchange="javascript: document.getElementById('iptFileName01').value=this.files[0].name"/>
+                  <input v-model="form.uploadFile01" name="uploadFile01" type="file" id="iptFile01" accept="" onchange="javascript: document.getElementById('iptFileName01').value=this.files[0].name"/>
                 </div>
               </div>
             </td>
@@ -57,19 +57,58 @@
 
       <div class="col-xs-12">
         <div class="text-center">
-          <button type="button" class="btn btn-info btn-sm">등록</button>
+          <button type="submit" class="btn btn-info btn-sm">등록</button>
         </div>
       </div>
-    </div>
+    </form>
   </div>
 </template>
 
 <script>
   export default {
-    name: 'Home',
+    name: 'Add',
+
     data() {
       return {
+        form: {
+          title: '',
+          contents: '',
+          writer: '',
+          uploadFile01: ''
+        }
+      }
+    },
+    methods: {
+      addExecute(e) {
+        e.preventDefault();
 
+        const formData = new FormData();
+
+        console.log("title", this.form.title);
+        console.log("contents", this.form.contents);
+        console.log("writer", this.form.writer);
+        console.log("uploadFile01", this.form.uploadFile01);
+
+
+        formData.append("title", this.form.title);
+        formData.append("contents", this.form.contents);
+        formData.append("writer", this.form.writer);
+        formData.append("uploadFile01", this.form.uploadFile01);
+
+        console.log("methods - addExecute");
+        console.log("formData", formData);
+
+        // axios.post('http://localhost:8080/notices', formData, {
+        //   header:{
+        //     'Content-Type' : 'multipart/form-data'
+        //   }
+        // })
+        //   .then(response => {
+        //     console.log(response);
+        //   })
+        //   .catch(e => {
+        //     console.log('error : ', e)
+        //   });
       }
     }
   }

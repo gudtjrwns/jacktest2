@@ -57,7 +57,7 @@
           <td>{{notice.title}}</td>
           <td>{{notice.writer}}</td>
           <td>{{notice.credate}}</td>
-          <td><button @click="$router.push('edit')" class="btn btn-sm btn-info">수정</button></td>
+          <td><button @click="editNotice(notice.id)" class="btn btn-sm btn-info">수정</button></td>
           <td><button @click="deleteNotice(notice.id)" class="btn btn-sm btn-danger">삭제</button></td>
         </tr>
         </tbody>
@@ -79,7 +79,6 @@
     created() {
       axios.get('http://localhost:8080/notices')
         .then(response => {
-          console.log("response", response.data.data.content);
           this.notices = response.data.data.content;
         })
         .catch(e => {
@@ -89,6 +88,14 @@
     methods: {
       deleteNotice(index) {
         console.log(index);
+      },
+      editNotice(index) {
+        this.$router.push({
+          name: 'edit',
+          params: {
+            id: index
+          }
+        })
       }
     }
 

@@ -63,10 +63,12 @@
 
 <script>
   export default {
-    name: 'Home',
-    data() {
-      return {
+    name: 'Edit',
 
+    data() {
+      const index = this.$route.params.id
+      return {
+        data: data[index]
       }
     }
   }
