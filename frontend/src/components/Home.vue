@@ -87,7 +87,16 @@
     },
     methods: {
       deleteNotice(index) {
-        console.log(index);
+
+        axios.delete('http://localhost:8080/notices/'+index)
+          .then(response => {
+            alert("삭제 성공!");
+            location.reload();
+          })
+          .catch(e => {
+            console.log('error : ', e)
+          });
+
       },
       editNotice(index) {
         this.$router.push({
