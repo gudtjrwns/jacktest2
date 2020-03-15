@@ -108,7 +108,6 @@
 <!--                    <installDirectory>frontend</installDirectory>-->
 <!--                    <workingDirectory>frontend</workingDirectory>-->
 <!--                </configuration>-->
-<!--                &lt;!&ndash; NB! Set <version> to the latest released version of frontend-maven-plugin, like in README.md &ndash;&gt;-->
 <!--                <executions>-->
 <!--                    <execution>-->
 <!--                        <id>npm run build</id>-->
