@@ -1,6 +1,6 @@
 <template>
   <div id="Edit">
-    <div>
+    <form @submit="editExecute()" enctype="multipart/form-data">
       <div>
         <table class="table table-bordered m-0">
           <colgroup>
@@ -12,21 +12,21 @@
             <th class="text-center">제목</th>
             <td>
               <div class="input-group">
-                <input name="title" type="text" class="form-control" required="required" placeholder="제목을 입력해 주세요."/>
+                <input v-model="form.title" name="title" type="text" class="form-control" required="required" placeholder="제목을 입력해 주세요."/>
               </div>
             </td>
           </tr>
           <tr>
             <th class="text-center">내용</th>
             <td>
-              <textarea name="contents" type="textarea" row="5" style="resize: none; overflow: auto;" class="form-control" placeholder="내용을 입력해 주세요."></textarea>
+              <textarea v-model="form.contents" name="contents" type="textarea" row="5" style="resize: none; overflow: auto;" class="form-control" placeholder="내용을 입력해 주세요."></textarea>
             </td>
           </tr>
 
           <tr>
             <th class="text-center">작성자 이름</th>
             <td>
-              <input name="writer" type="text" class="form-control" required="required" placeholder="작성자 이름을 입력해 주세요."/>
+              <input v-model="form.writer" name="writer" type="text" class="form-control" required="required" placeholder="작성자 이름을 입력해 주세요."/>
             </td>
           </tr>
 
@@ -35,7 +35,7 @@
             <td>
               <div class="form-group m-0">
                 <div class="input-group m-0">
-                  <input type="text" class="form-control" id="iptFileName01" placeholder="우측 버튼을 통해 첨부파일을 선택해주세요." readonly/>
+                  <input v-model="form.filename" type="text" class="form-control" name="iptFileName01" id="iptFileName01" placeholder="우측 버튼을 통해 첨부파일을 선택해주세요." readonly/>
                   <div class="input-group-btn">
                     <button type="button" class="btn btn-info btn-sm" id="btnFile01" onclick="document.getElementById('iptFile01').click();">파일첨부</button>
                   </div>
@@ -57,18 +57,35 @@
           <button type="button" class="btn btn-info btn-sm">등록</button>
         </div>
       </div>
-    </div>
+    </form>
   </div>
 </template>
 
 <script>
+
   export default {
     name: 'Edit',
 
     data() {
-      const index = this.$route.params.id
       return {
-        data: data[index]
+        form: {
+        }
+      }
+    },
+    created() {
+      const index = this.$route.params.id;
+
+      axios.get('http://localhost:8080/notices/' + index)
+        .then(response => {
+          this.form = response.data.data;
+        })
+        .catch(e => {
+          console.log('error : ', e)
+        });
+    },
+    methods: {
+      editExecute(e) {
+        e.preventDefault();
       }
     }
   }
