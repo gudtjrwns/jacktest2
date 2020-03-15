@@ -10,7 +10,7 @@
 <!--            </button>-->
           </div>
           <div class="form-group">
-            <button type="button" class="btn btn-sm btn-danger">
+            <button type="button" @click="deleteAll()" class="btn btn-sm btn-danger">
               <i class="far fa-edit"></i> 삭제
             </button>
           </div>
@@ -19,9 +19,9 @@
       <div class="pull-right">
         <div class="form-group">
           <div class="input-group">
-            <input type="text" class="form-control col-6" placeholder="검색어를 입력해주세요.">
+            <input v-model="keyword" type="text" class="form-control col-6" placeholder="검색어를 입력해주세요.">
             <span class="input-group-btn">
-              <button type="button" class="btn btn-sm btn-primary">검색</button>
+              <button type="button" @click="search()"  class="btn btn-sm btn-primary">검색</button>
             </span>
           </div>
         </div>
@@ -41,7 +41,7 @@
         </colgroup>
         <thead class="thead-dark text-center">
         <tr>
-          <td><input type="checkbox" /></td>
+          <td><input type="checkbox" v-model="checkAll" /></td>
           <td>No</td>
           <td>제목</td>
           <td>작성자</td>
@@ -51,8 +51,11 @@
         </tr>
         </thead>
         <tbody>
+        <tr class="alert alert-info" role="alert" v-if="notices.length === 0">
+          <td colspan="7"><b>Info!</b> 등록된 게시글이 없습니다. 신규 등록해주세요.</td>
+        </tr>
         <tr v-for="notice in notices" :key="notice.id">
-          <td><input type="checkbox" /></td>
+          <td><input type="checkbox" :value="notice.id" v-model="checked" /></td>
           <td>{{notice.id}}</td>
           <td>{{notice.title}}</td>
           <td>{{notice.writer}}</td>
@@ -71,9 +74,9 @@
     name: 'Home',
     data() {
       return {
-        notices:[
-
-        ]
+        notices:[],
+        checked: [],
+        keyword: ''
       }
     },
     created() {
@@ -98,6 +101,20 @@
           });
 
       },
+      deleteAll() {
+        var idList = this.checked;
+
+        if (idList.length === 0) {alert("선택된 항목이 없습니다."); return false;}
+
+        axios.delete('http://localhost:8080/notices/' + idList)
+          .then(response => {
+            alert("삭제 성공!");
+            location.reload();
+          })
+          .catch(e => {
+            console.log('error : ', e)
+          });
+      },
       editNotice(index) {
         this.$router.push({
           name: 'edit',
@@ -105,6 +122,35 @@
             id: index
           }
         })
+      },
+      search() {
+        var keyword = this.keyword;
+
+        axios.get('http://localhost:8080/notices/search', keyword)
+          .then(response => {
+            this.notices = response.data.data.content;
+          })
+          .catch(e => {
+            console.log('error : ', e)
+          });
+      }
+    },
+    computed: {
+      checkAll: {
+        get: function () {
+          return this.notices ? this.checked.length === this.notices.length : false;
+        },
+        set: function (value) {
+          var checked = [];
+
+          if (value) {
+            this.notices.forEach(function (notice) {
+              checked.push(notice.id);
+            });
+          }
+
+          this.checked = checked;
+        }
       }
     }
 

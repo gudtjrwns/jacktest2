@@ -14,8 +14,8 @@
               <div class="input-group">
                 <input v-model="form.title" name="title" type="text" class="form-control" required="required" placeholder="제목을 입력해 주세요."/>
                 <span class="input-group-btn">
-                          <button type="button" class="btn btn-info btn-sm">중복확인</button>
-                        </span>
+                  <button type="button" @click="existsTitle()" class="btn btn-info btn-sm">중복확인</button>
+                </span>
               </div>
             </td>
           </tr>
@@ -79,6 +79,21 @@
       }
     },
     methods: {
+      existsTitle(){
+        var title = this.form.title;
+
+        axios.get('http://localhost:8080/notices/title', {
+          'title': title
+        })
+          .then(response => {
+
+            console.log("response", response);
+
+          })
+          .catch(e => {
+            console.log('error : ', e)
+          });
+      },
       addExecute(e) {
         e.preventDefault();
         //
@@ -88,8 +103,8 @@
         // console.log("contents", this.form.contents);
         // console.log("writer", this.form.writer);
         // console.log("uploadFile01", this.form.uploadFile01);
-
-
+        //
+        //
         // formData.append("title", this.form.title);
         // console.log("formData", formData);
         // formData.append("contents", this.form.contents);
