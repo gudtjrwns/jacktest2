@@ -98,7 +98,7 @@ public class RestNoticeController {
             throw new NoticeTitleAlreadyExistException();
 
         } else {
-            RestResponse message = new RestResponse(HttpStatus.OK.value(), "Success");
+            RestResponse message = new RestResponse(HttpStatus.OK.value(), "Success", true);
 
             return new ResponseEntity(message, HttpStatus.OK);
         }

@@ -83,12 +83,11 @@
       existsTitle(){
         var title = this.form.title;
 
-        axios.get('http://localhost:8080/notices/title', {
-          'title': title
-        })
+        axios.get('http://localhost:8080/notices/title?title='+ title)
           .then(response => {
-
-            console.log("response", response);
+            if (!response.data.data) {
+              alert(response.data.data);
+            }
 
           })
           .catch(e => {
@@ -97,21 +96,14 @@
       },
       addExecute() {
         const formData = new FormData();
-
-        console.log("title - ", this.form.title);
-        console.log("contents - ", this.form.contents);
-        console.log("writer - ", this.form.writer);
-        console.log("uploadFile01 - ", this.$refs.file.files[0]);
+        const fileData = this.$refs.file.files[0];
 
         formData.append("title", this.form.title);
         formData.append("contents", this.form.contents);
         formData.append("writer", this.form.writer);
-        formData.append("uploadFile01", this.$refs.file.files[0]);
+        // formData.append("uploadFile01", this.$refs.file.files[0]);
 
-        console.log("formData", formData);
-
-
-        axios.post('http://localhost:8080/notices', formData, {
+        axios.post('http://localhost:8080/notices?uploadFile01=' + fileData, formData, {
           header: {
             'Content-Type': 'multipart/form-data'
           }
@@ -123,25 +115,6 @@
           .catch(e => {
             console.log('error : ', e)
           });
-
-
-        // axios({
-        //   method: 'post',
-        //   url: 'http://localhost:8080/notices',
-        //   data: formData,
-        //   header: {'Content-Type': 'multipart/form-data'}
-        // })
-        // //   axios.post('http://localhost:8080/notices', formData, {
-        // //   header:{
-        // //     'Content-Type' : 'multipart/form-data'
-        // //   }
-        // // })
-        //   .then(response => {
-        //     console.log(response);
-        //   })
-        //   .catch(e => {
-        //     console.log('error : ', e)
-        //   });
       }
     }
   }
