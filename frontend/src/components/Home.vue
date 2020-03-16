@@ -57,7 +57,7 @@
         <tr v-for="notice in notices" :key="notice.id">
           <td><input type="checkbox" :value="notice.id" v-model="checked" /></td>
           <td>{{notice.id}}</td>
-          <td>{{notice.title}}</td>
+          <td><a v-b-modal.modal-1 style="cursor: pointer;" @click="modalShow(notice.id)">{{notice.title}}</a></td>
           <td>{{notice.writer}}</td>
           <td>{{notice.credate}}</td>
           <td><button @click="editNotice(notice.id)" class="btn btn-sm btn-info">수정</button></td>
@@ -66,17 +66,30 @@
         </tbody>
       </table>
     </div>
+
+    <div>
+      <b-modal id="modal-1" title="게시글 정보" ok-only ok-title="닫기" size="lg">
+        <table class="table table-bordered table-striped text-center m-b-0">
+          <tbody>
+            {{modalNoticeList}}
+          </tbody>
+        </table>
+      </b-modal>
+    </div>
+
   </div>
 </template>
 
 <script>
+
   export default {
     name: 'Home',
     data() {
       return {
         notices:[],
         checked: [],
-        keyword: ''
+        keyword: '',
+        modalNoticeList: ''
       }
     },
     created() {
@@ -129,6 +142,24 @@
         axios.get('http://localhost:8080/notices/search', keyword)
           .then(response => {
             this.notices = response.data.data.content;
+          })
+          .catch(e => {
+            console.log('error : ', e)
+          });
+      },
+      modalShow(index) {
+        axios.get('http://localhost:8080/notices/'+index)
+          .then(response => {
+            var data = response.data.data;
+
+            console.log(response.data.data);
+            this.modalNoticeList = '<tr><th class="text-center">제목</th><td>' + data.title + '</td></tr>' +
+              '<tr><th class="text-center">내용</th><td>' + data.contents + '</td></tr>' +
+              '<tr><th class="text-center">작성자</th><td>' + data.writer + '</td></tr>' +
+              '<tr><th class="text-center">등록일</th><td>' + data.credate + '</td></tr>' +
+              '<tr><th class="text-center">조회수</th><td>' + data.viewcnt + '</td></tr>' +
+              '<tr><th class="text-center">댓글수</th><td>' + data.replycnt + '</td></tr>' +
+              '<tr><th class="text-center">파일</th><td>' + data.filename + '</td></tr>';
           })
           .catch(e => {
             console.log('error : ', e)

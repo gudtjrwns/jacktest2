@@ -45,7 +45,7 @@
                   </div>
                 </div>
                 <div hidden>
-                  <input v-model="form.uploadFile01" name="uploadFile01" type="file" id="iptFile01" accept="" onchange="javascript: document.getElementById('iptFileName01').value=this.files[0].name"/>
+                  <input ref="file" name="uploadFile01" type="file" id="iptFile01" accept="" onchange="javascript: document.getElementById('iptFileName01').value=this.files[0].name"/>
                 </div>
               </div>
             </td>
@@ -75,7 +75,7 @@
           title: '',
           contents: '',
           writer: '',
-          uploadFile01: ''
+          file: ''
         }
       }
     },
@@ -96,34 +96,33 @@
           });
       },
       addExecute() {
-        console.log("111");
-
         const formData = new FormData();
 
         console.log("title - ", this.form.title);
         console.log("contents - ", this.form.contents);
         console.log("writer - ", this.form.writer);
-        console.log("uploadFile01 - ", this.form.uploadFile01);
+        console.log("uploadFile01 - ", this.$refs.file.files[0]);
 
         formData.append("title", this.form.title);
         formData.append("contents", this.form.contents);
         formData.append("writer", this.form.writer);
-        formData.append("uploadFile01", this.form.uploadFile01);
+        formData.append("uploadFile01", this.$refs.file.files[0]);
 
         console.log("formData", formData);
 
 
-        // axios.post('http://localhost:8080/notices', formData, {
-        //   header: {
-        //     'Content-Type': 'multipart/form-data'
-        //   }
-        // })
-        //   .then(response => {
-        //     console.log(response);
-        //   })
-        //   .catch(e => {
-        //     console.log('error : ', e)
-        //   });
+        axios.post('http://localhost:8080/notices', formData, {
+          header: {
+            'Content-Type': 'multipart/form-data'
+          }
+        })
+          .then(response => {
+            alert("등록 성공!");
+            this.$router.push({name: 'home'})
+          })
+          .catch(e => {
+            console.log('error : ', e)
+          });
 
 
         // axios({
