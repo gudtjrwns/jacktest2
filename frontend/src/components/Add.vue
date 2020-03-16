@@ -1,6 +1,6 @@
 <template>
   <div id="Add">
-    <form v-on:submit.prevent="addExecute" enctype="multipart/form-data">
+    <form method="post" v-on:submit.prevent="addExecute" enctype="multipart/form-data">
 <!--    <form @submit="addExecute()" enctype="multipart/form-data">-->
       <div>
         <table class="table table-bordered m-0">
@@ -83,7 +83,10 @@
       existsTitle(){
         var title = this.form.title;
 
-        axios.get('http://localhost:8080/notices/title?title='+ title)
+        axios.get('http://localhost:8080/notices/title',
+          {
+            params: {title: title}
+          })
           .then(response => {
             if (!response.data.data) {
               alert(response.data.data);
@@ -96,17 +99,28 @@
       },
       addExecute() {
         const formData = new FormData();
-        const fileData = this.$refs.file.files[0];
+        let fileData = this.$refs.file.files[0];
+
+        if(fileData === undefined){fileData = null}
 
         formData.append("title", this.form.title);
         formData.append("contents", this.form.contents);
         formData.append("writer", this.form.writer);
-        // formData.append("uploadFile01", this.$refs.file.files[0]);
+        formData.append("uploadFile01", fileData);
 
-        axios.post('http://localhost:8080/notices?uploadFile01=' + fileData, formData, {
+        console.log("title - ", this.form.title);
+        console.log("contents - ", this.form.contents);
+        console.log("writer - ", this.form.writer);
+        console.log("file - ", fileData);
+
+        axios.post('http://localhost:8080/notices', formData,
+          {
           header: {
             'Content-Type': 'multipart/form-data'
           }
+          // params: {
+          //   uploadFile01: fileData
+          // }
         })
           .then(response => {
             alert("등록 성공!");
