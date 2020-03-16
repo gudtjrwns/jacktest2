@@ -1,6 +1,7 @@
 <template>
   <div id="Add">
-    <form @submit="addExecute()" enctype="multipart/form-data">
+    <form v-on:submit.prevent="addExecute" enctype="multipart/form-data">
+<!--    <form @submit="addExecute()" enctype="multipart/form-data">-->
       <div>
         <table class="table table-bordered m-0">
           <colgroup>
@@ -94,31 +95,42 @@
             console.log('error : ', e)
           });
       },
-      addExecute(e) {
-        e.preventDefault();
-        //
-        // const formData = new FormData();
-        //
-        // console.log("title", this.form.title);
-        // console.log("contents", this.form.contents);
-        // console.log("writer", this.form.writer);
-        // console.log("uploadFile01", this.form.uploadFile01);
-        //
-        //
-        // formData.append("title", this.form.title);
-        // console.log("formData", formData);
-        // formData.append("contents", this.form.contents);
-        // console.log("formData", formData);
-        // formData.append("writer", this.form.writer);
-        // console.log("formData", formData);
-        // formData.append("uploadFile01", this.form.uploadFile01);
-        // console.log("formData", formData);
+      addExecute() {
+        console.log("111");
+
+        const formData = new FormData();
+
+        console.log("title - ", this.form.title);
+        console.log("contents - ", this.form.contents);
+        console.log("writer - ", this.form.writer);
+        console.log("uploadFile01 - ", this.form.uploadFile01);
+
+        formData.append("title", this.form.title);
+        formData.append("contents", this.form.contents);
+        formData.append("writer", this.form.writer);
+        formData.append("uploadFile01", this.form.uploadFile01);
+
+        console.log("formData", formData);
+
+
+        // axios.post('http://localhost:8080/notices', formData, {
+        //   header: {
+        //     'Content-Type': 'multipart/form-data'
+        //   }
+        // })
+        //   .then(response => {
+        //     console.log(response);
+        //   })
+        //   .catch(e => {
+        //     console.log('error : ', e)
+        //   });
+
 
         // axios({
         //   method: 'post',
-        //   baseURL: 'http://localhost:8080/notices',
+        //   url: 'http://localhost:8080/notices',
         //   data: formData,
-        //   headers: {'Content-Type': 'multipart/form-data'}
+        //   header: {'Content-Type': 'multipart/form-data'}
         // })
         // //   axios.post('http://localhost:8080/notices', formData, {
         // //   header:{
