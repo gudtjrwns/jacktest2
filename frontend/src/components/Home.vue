@@ -70,8 +70,81 @@
     <div>
       <b-modal id="modal-1" title="게시글 정보" ok-only ok-title="닫기" size="lg">
         <table class="table table-bordered table-striped text-center m-b-0">
+          <tbody v-model="noticeOne">
+            <tr>
+              <th class="text-center">제목</th>
+              <td>{{noticeOne.title}}</td>
+            </tr>
+            <tr>
+              <th class="text-center">내용</th>
+              <td>{{noticeOne.contents}}</td>
+            </tr>
+            <tr>
+              <th class="text-center">작성자</th>
+              <td>{{noticeOne.writer}}</td>
+            </tr>
+            <tr>
+              <th class="text-center">등록일</th>
+              <td>{{noticeOne.credate}}</td>
+            </tr>
+            <tr>
+              <th class="text-center">조회수</th>
+              <td>{{noticeOne.viewcnt}}</td>
+            </tr>
+            <tr>
+              <th class="text-center">댓글수</th>
+              <td>{{noticeOne.replycnt}}</td>
+            </tr>
+            <tr>
+              <th class="text-center">다운로드</th>
+              <td v-if="noticeOne.filename === 'NONE'">첨부된 파일이 없습니다.</td>
+              <td v-else><a @click="downloadFileData(noticeOne.id)" style="color:blue; cursor:pointer;">{{noticeOne.filename}}</a></td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div>
+          <h4>댓글</h4>
+        </div>
+        <div v-if="replyDist === true">
+          <textarea v-model="replyContents" name="content" id="contentsAdd" rows="3" class="form-control"
+                    type="text" style="resize:none; overflow: auto;"
+                    placeholder="댓글을 입력해 주세요."></textarea>
+          <input v-model="replyWriter" type="text" id="writerAdd" class="form-control" style="width: 200px;" placeholder="이름을 입력해 주세요.">
+          <div class="pull-right" style="margin-top:15px;float:right;">
+            <button @click="addReply(noticeOne.id)" type="button" id="replyAddBtn" class="btn btn-sm btn-info">댓글 달기</button>
+          </div>
+        </div>
+        <div v-else>
+          <textarea v-model="editContents" name="content" rows="3" class="form-control"
+                    type="text" style="resize:none; overflow: auto;"
+                    placeholder="댓글을 입력해 주세요."></textarea>
+          <div class="pull-right" style="margin-top:15px;float:right;">
+            <button @click="editReplyExecute(editReplyId)" type="button" class="btn btn-sm btn-info">댓글 편집</button>
+          </div>
+        </div>
+
+        <div class="clearfix"></div>
+        <div class="ln_solid" style="border-top:1.5px solid gray;"></div>
+
+        <table class="table table-bordered table-striped m-b-0">
           <tbody>
-            {{modalNoticeList}}
+            <tr class="alert alert-info" role="alert" v-if="replies.length === 0">
+              <td><b>Info!</b> 등록된 댓글이 없습니다. 새로운 댓글을 작성해주세요.</td>
+            </tr>
+            <tr v-for="reply in replies" :key="reply.id">
+              <td>
+                <div>
+                  {{reply.contents}}
+                  <br/>
+                  {{reply.credate}}
+                </div>
+                <p>{{reply.writer}}</p>
+                <div>
+                  <span style="color:blue; font-weight:500; cursor:pointer;" @click="editReply(reply.id)">수정</span> / <span style="color:red; font-weight:500; cursor:pointer;" @click="delReply(reply.id, noticeOne.id)">삭제</span>
+                </div>
+              </td>
+            </tr>
           </tbody>
         </table>
       </b-modal>
@@ -81,16 +154,22 @@
 </template>
 
 <script>
-  import moment from 'moment';
+
 
   export default {
     name: 'Home',
     data() {
       return {
-        notices:[],
+        notices: [],
         checked: [],
         keyword: '',
-        modalNoticeList: ''
+        noticeOne: '',
+        replies: [],
+        replyDist: true,
+        replyContents: '',
+        replyWriter: '',
+        editContents: '',
+        editReplyId: 0
       }
     },
     created() {
@@ -153,22 +232,107 @@
           });
       },
       modalShow(index) {
+        // 게시글 목록
         axios.get('http://localhost:8080/notices/'+index)
           .then(response => {
             var data = response.data.data;
 
-            console.log(response.data.data);
-            this.modalNoticeList = '<tr><th class="text-center">제목</th><td>' + data.title + '</td></tr>' +
-              '<tr><th class="text-center">내용</th><td>' + data.contents + '</td></tr>' +
-              '<tr><th class="text-center">작성자</th><td>' + data.writer + '</td></tr>' +
-              '<tr><th class="text-center">등록일</th><td>' + data.credate + '</td></tr>' +
-              '<tr><th class="text-center">조회수</th><td>' + data.viewcnt + '</td></tr>' +
-              '<tr><th class="text-center">댓글수</th><td>' + data.replycnt + '</td></tr>' +
-              '<tr><th class="text-center">파일</th><td>' + data.filename + '</td></tr>';
+            this.noticeOne = response.data.data;
           })
           .catch(e => {
             console.log('error : ', e)
           });
+
+        // 댓글 목록
+        axios.get('http://localhost:8080/replies/notice/'+index)
+          .then(response => {
+            var data = response.data.data;
+
+            this.replies = response.data.data;
+          })
+          .catch(e => {
+            console.log('error : ', e)
+          });
+      },
+      downloadFileData(index) {
+        location.href = 'http://localhost:8080/notices/'+index+'/file';
+      },
+      addReply(index) {
+        const formData = new FormData();
+
+        formData.append("writer", this.replyWriter);
+        formData.append("contents", this.replyContents);
+
+        axios.post('http://localhost:8080/replies/notice/' + index, formData)
+          .then(response => {
+
+            axios.get('http://localhost:8080/replies/notice/' + response.data.data.noticeid)
+              .then(response => {
+                this.replies = response.data.data;
+                this.replyContents = '';
+                this.replyWriter = '';
+              })
+              .catch(e => {
+                console.log('error : ', e)
+              });
+          })
+          .catch(e => {
+            console.log('error : ', e)
+          });
+
+      },
+      editReplyExecute(index) {
+        const formData = new FormData();
+
+        formData.append("contents", this.editContents);
+
+        axios.put('http://localhost:8080/replies/' + index, formData)
+          .then(response => {
+            this.replyDist = true;
+            this.editReplyId = 0;
+
+            axios.get('http://localhost:8080/replies/notice/'+index)
+              .then(response => {
+                this.replies = response.data.data;
+              })
+              .catch(e => {
+                console.log('error : ', e)
+              });
+          })
+          .catch(e => {
+            console.log('error : ', e)
+          });
+      },
+      editReply(index) {
+        this.replyDist = false;
+        this.editReplyId = index;
+
+        axios.get('http://localhost:8080/replies/' + index)
+          .then(response => {
+            this.editContents = response.data.data.contents;
+          })
+          .catch(e => {
+            console.log('error : ', e)
+          })
+
+      },
+      delReply(index, noticeId) {
+        axios.delete('http://localhost:8080/replies/' + index)
+          .then(response => {
+
+            axios.get('http://localhost:8080/replies/notice/' + noticeId)
+              .then(response => {
+                this.replies = response.data.data;
+              })
+              .catch(e => {
+                console.log('error : ', e)
+              });
+
+          })
+          .catch(e => {
+            console.log('error : ', e)
+          });
+
       }
     },
     computed: {
