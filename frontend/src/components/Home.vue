@@ -244,6 +244,8 @@
           });
 
         // 댓글 목록
+        this.replyDist = false;
+
         axios.get('http://localhost:8080/replies/notice/'+index)
           .then(response => {
             var data = response.data.data;
