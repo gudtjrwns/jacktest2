@@ -1,6 +1,6 @@
 <template>
   <div id="Edit">
-    <form @submit="editExecute()" enctype="multipart/form-data">
+    <form v-on:submit.prevent="editExecute"  enctype="multipart/form-data">
       <div>
         <table class="table table-bordered m-0">
           <colgroup>
@@ -26,7 +26,7 @@
           <tr>
             <th class="text-center">작성자 이름</th>
             <td>
-              <input v-model="form.writer" name="writer" type="text" class="form-control" required="required" placeholder="작성자 이름을 입력해 주세요."/>
+              <input v-model="form.writer" readonly="readonly" name="writer" type="text" class="form-control" required="required" placeholder="작성자 이름을 입력해 주세요."/>
             </td>
           </tr>
 
@@ -41,7 +41,7 @@
                   </div>
                 </div>
                 <div hidden>
-                  <input name="uploadFile01" type="file" id="iptFile01" accept="" onchange="javascript: document.getElementById('iptFileName01').value=this.files[0].name"/>
+                  <input ref="file" name="uploadFile01" type="file" id="iptFile01" accept="" onchange="javascript: document.getElementById('iptFileName01').value=this.files[0].name"/>
                 </div>
               </div>
             </td>
@@ -54,7 +54,7 @@
 
       <div class="col-xs-12">
         <div class="text-center">
-          <button type="button" class="btn btn-info btn-sm">등록</button>
+          <button type="submit" class="btn btn-info btn-sm">편집</button>
         </div>
       </div>
     </form>
@@ -84,8 +84,30 @@
         });
     },
     methods: {
-      editExecute(e) {
-        e.preventDefault();
+      editExecute() {
+        const formData = new FormData();
+
+        let fileData = this.$refs.file.files[0];
+
+        if(fileData === undefined){fileData = ''}
+
+        formData.append("title", this.form.title);
+        formData.append("contents", this.form.contents);
+        formData.append("uploadFile01", fileData);
+
+        axios.put('http://localhost:8080/notices/' + this.form.id, formData,
+          {
+            headers: {
+              'Content-Type': 'multipart/form-data'
+            }
+          })
+          .then(response => {
+            alert("저장 성공!");
+            this.$router.push({name: 'home'})
+          })
+          .catch(e => {
+            console.log('error : ', e)
+          });
       }
     }
   }

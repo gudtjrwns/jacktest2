@@ -1,6 +1,6 @@
 <template>
   <div id="Add">
-    <form method="post" v-on:submit.prevent="addExecute" enctype="multipart/form-data">
+    <form v-on:submit.prevent="addExecute" enctype="multipart/form-data">
 <!--    <form @submit="addExecute()" enctype="multipart/form-data">-->
       <div>
         <table class="table table-bordered m-0">
@@ -18,6 +18,8 @@
                   <button type="button" @click="existsTitle()" class="btn btn-info btn-sm">중복확인</button>
                 </span>
               </div>
+              <div style="color:blue">{{titleMsg1}}</div>
+              <div style="color:red">{{titleMsg2}}</div>
             </td>
           </tr>
           <tr>
@@ -75,21 +77,30 @@
           title: '',
           contents: '',
           writer: '',
-          file: ''
+          file: '',
+          titleMsg1: '',
+          titleMsg2: '',
+          uploadFile01: ''
         }
       }
     },
     methods: {
       existsTitle(){
         var title = this.form.title;
+        this.titleMsg1 = '';
+        this.titleMsg2 = '';
 
         axios.get('http://localhost:8080/notices/title',
           {
             params: {title: title}
           })
           .then(response => {
-            if (!response.data.data) {
-              alert(response.data.data);
+            console.log(response.data.data);
+
+            if (response.data.data) {
+              this.titleMsg1 = '사용 가능한 제목입니다.';
+            } else {
+              this.titleMsg2 = response.data.data;
             }
 
           })
@@ -98,29 +109,29 @@
           });
       },
       addExecute() {
+        var filename = document.getElementById("iptFileName01").value;
+
+        if (filename === '') {
+          alert('파일을 첨부해주세요.');
+          return false;
+        }
+
         const formData = new FormData();
+
         let fileData = this.$refs.file.files[0];
 
-        if(fileData === undefined){fileData = null}
+        if(fileData === undefined){fileData = ''}
 
         formData.append("title", this.form.title);
         formData.append("contents", this.form.contents);
         formData.append("writer", this.form.writer);
         formData.append("uploadFile01", fileData);
 
-        console.log("title - ", this.form.title);
-        console.log("contents - ", this.form.contents);
-        console.log("writer - ", this.form.writer);
-        console.log("file - ", fileData);
-
         axios.post('http://localhost:8080/notices', formData,
           {
-          header: {
+          headers: {
             'Content-Type': 'multipart/form-data'
           }
-          // params: {
-          //   uploadFile01: fileData
-          // }
         })
           .then(response => {
             alert("등록 성공!");

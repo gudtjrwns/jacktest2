@@ -81,6 +81,7 @@
 </template>
 
 <script>
+  import moment from 'moment';
 
   export default {
     name: 'Home',
@@ -139,7 +140,11 @@
       search() {
         var keyword = this.keyword;
 
-        axios.get('http://localhost:8080/notices/search', keyword)
+        axios.get('http://localhost:8080/notices/search', {
+          params:{
+            keyword: keyword
+          }
+        })
           .then(response => {
             this.notices = response.data.data.content;
           })
