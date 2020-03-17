@@ -67,6 +67,27 @@
       </table>
     </div>
 
+    <div class="row" style="padding-top: 20px;">
+      <div class="col-md-offset-5" style="margin: 0 auto;">
+        <div class="btn-toolbar">
+          <div class="btn-group">
+            <button class="btn btn-outline-dark btn-sm" type="button" @click="paginationNotice(startPage-2)"><<</button>
+            <button class="btn btn-outline-dark btn-sm" type="button" @click="paginationNotice(currentPage-2)"><</button>
+
+            <button v-for="index in totalPage" :key="index" v-if="currentPage === index"
+                    class="btn btn-outline-dark btn-sm active" type="button" @click="paginationNotice(index-1)">{{index}}</button>
+            <button v-else
+                    class="btn btn-outline-dark btn-sm" type="button" @click="paginationNotice(index-1)">{{index}}</button>
+
+            <button v-if="currentPage === totalPage" class="btn btn-outline-dark btn-sm" type="button">></button>
+            <button v-else class="btn btn-outline-dark btn-sm" type="button" @click="paginationNotice(currentPage)">></button>
+
+            <button class="btn btn-outline-dark btn-sm" type="button" @click="paginationNotice(totalPage-1)">>></button>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div>
       <b-modal id="modal-1" title="게시글 정보" ok-only ok-title="닫기" size="lg">
         <table class="table table-bordered table-striped text-center m-b-0">
@@ -85,7 +106,7 @@
             </tr>
             <tr>
               <th class="text-center">등록일</th>
-              <td>{{noticeOne.credate}}</td>
+              <td>{{noticeOne.credate | formatDate}}</td>
             </tr>
             <tr>
               <th class="text-center">조회수</th>
@@ -155,7 +176,6 @@
 
 <script>
 
-
   export default {
     name: 'Home',
     data() {
@@ -169,13 +189,25 @@
         replyContents: '',
         replyWriter: '',
         editContents: '',
-        editReplyId: 0
+        editReplyId: 0,
+        startPage: 0,
+        totalPage: 0,
+        currentPage: 0
       }
     },
     created() {
       axios.get('http://localhost:8080/notices')
         .then(response => {
+          console.log(response.data.data);
+
           this.notices = response.data.data.content;
+          this.startPage = (Math.ceil((response.data.data.pageable.pageNumber + 1) / 10.0) * 10) - 9;
+          this.currentPage = response.data.data.pageable.pageNumber + 1;
+          this.totalPage = response.data.data.totalPages;
+
+          console.log("this.startPage - 시작페이지 - ", this.startPage);
+          console.log("this.currentPage - 현재페이지 - ", this.currentPage);
+          console.log("this.totalPage - 총페이지 - ", this.totalPage);
         })
         .catch(e => {
           console.log('error : ', e)
@@ -334,7 +366,28 @@
           .catch(e => {
             console.log('error : ', e)
           });
+      },
+      paginationNotice(pageValue) {
+        console.log("pageValue", pageValue);
+        axios.get('http://localhost:8080/notices',
+          {
+            params: {
+              page: pageValue
+            }
+          })
+          .then(response => {
+            this.notices = response.data.data.content;
+            this.startPage = (Math.ceil((response.data.data.pageable.pageNumber + 1) / 10.0) * 10) - 9;
+            this.currentPage = response.data.data.pageable.pageNumber + 1;
+            this.totalPage = response.data.data.totalPages;
 
+            console.log("this.startPage - 시작페이지 - ", this.startPage);
+            console.log("this.currentPage - 현재페이지 - ", this.currentPage);
+            console.log("this.totalPage - 총페이지 - ", this.totalPage);
+          })
+          .catch(e => {
+            console.log('error : ', e)
+          });
       }
     },
     computed: {
@@ -355,6 +408,14 @@
         }
       }
     }
+    // ,
+    // filters: {
+    //   formatDate: function (value) {
+    //     if (value) {
+    //       return moment(String(value)).format('YYYY-MM-DD')
+    //     }
+    //   }
+    // }
 
   }
 </script>

@@ -21,6 +21,45 @@ public class Application {
         noticeRepository.save(new Notice("3번째 제목", "3번째 내용", "신동엽", 0, 0, "NONE", "NONE", dateUtil.currentDateInTimestamp(), dateUtil.currentDateInTimestamp(), null));
         noticeRepository.save(new Notice("4번째 제목", "4번째 내용", "임창정", 0, 0, "NONE", "NONE", dateUtil.currentDateInTimestamp(), dateUtil.currentDateInTimestamp(), null));
         noticeRepository.save(new Notice("5번째 제목", "5번째 내용", "김장훈", 0, 0, "NONE", "NONE", dateUtil.currentDateInTimestamp(), dateUtil.currentDateInTimestamp(), null));
+        noticeRepository.save(new Notice("5번째 제목", "5번째 내용", "김장훈", 0, 0, "NONE", "NONE", dateUtil.currentDateInTimestamp(), dateUtil.currentDateInTimestamp(), null));
+        noticeRepository.save(new Notice("5번째 제목", "5번째 내용", "김장훈", 0, 0, "NONE", "NONE", dateUtil.currentDateInTimestamp(), dateUtil.currentDateInTimestamp(), null));
+        noticeRepository.save(new Notice("5번째 제목", "5번째 내용", "김장훈", 0, 0, "NONE", "NONE", dateUtil.currentDateInTimestamp(), dateUtil.currentDateInTimestamp(), null));
+        noticeRepository.save(new Notice("5번째 제목", "5번째 내용", "김장훈", 0, 0, "NONE", "NONE", dateUtil.currentDateInTimestamp(), dateUtil.currentDateInTimestamp(), null));
+        noticeRepository.save(new Notice("5번째 제목", "5번째 내용", "김장훈", 0, 0, "NONE", "NONE", dateUtil.currentDateInTimestamp(), dateUtil.currentDateInTimestamp(), null));
+        noticeRepository.save(new Notice("5번째 제목", "5번째 내용", "김장훈", 0, 0, "NONE", "NONE", dateUtil.currentDateInTimestamp(), dateUtil.currentDateInTimestamp(), null));
+        noticeRepository.save(new Notice("5번째 제목", "5번째 내용", "김장훈", 0, 0, "NONE", "NONE", dateUtil.currentDateInTimestamp(), dateUtil.currentDateInTimestamp(), null));
+        noticeRepository.save(new Notice("5번째 제목", "5번째 내용", "김장훈", 0, 0, "NONE", "NONE", dateUtil.currentDateInTimestamp(), dateUtil.currentDateInTimestamp(), null));
+        noticeRepository.save(new Notice("5번째 제목", "5번째 내용", "김장훈", 0, 0, "NONE", "NONE", dateUtil.currentDateInTimestamp(), dateUtil.currentDateInTimestamp(), null));
+        noticeRepository.save(new Notice("5번째 제목", "5번째 내용", "김장훈", 0, 0, "NONE", "NONE", dateUtil.currentDateInTimestamp(), dateUtil.currentDateInTimestamp(), null));
+        noticeRepository.save(new Notice("5번째 제목", "5번째 내용", "김장훈", 0, 0, "NONE", "NONE", dateUtil.currentDateInTimestamp(), dateUtil.currentDateInTimestamp(), null));
+        noticeRepository.save(new Notice("5번째 제목", "5번째 내용", "김장훈", 0, 0, "NONE", "NONE", dateUtil.currentDateInTimestamp(), dateUtil.currentDateInTimestamp(), null));
+        noticeRepository.save(new Notice("5번째 제목", "5번째 내용", "김장훈", 0, 0, "NONE", "NONE", dateUtil.currentDateInTimestamp(), dateUtil.currentDateInTimestamp(), null));
+        noticeRepository.save(new Notice("5번째 제목", "5번째 내용", "김장훈", 0, 0, "NONE", "NONE", dateUtil.currentDateInTimestamp(), dateUtil.currentDateInTimestamp(), null));
+        noticeRepository.save(new Notice("5번째 제목", "5번째 내용", "김장훈", 0, 0, "NONE", "NONE", dateUtil.currentDateInTimestamp(), dateUtil.currentDateInTimestamp(), null));
+        noticeRepository.save(new Notice("5번째 제목", "5번째 내용", "김장훈", 0, 0, "NONE", "NONE", dateUtil.currentDateInTimestamp(), dateUtil.currentDateInTimestamp(), null));
+        noticeRepository.save(new Notice("5번째 제목", "5번째 내용", "김장훈", 0, 0, "NONE", "NONE", dateUtil.currentDateInTimestamp(), dateUtil.currentDateInTimestamp(), null));
+        noticeRepository.save(new Notice("5번째 제목", "5번째 내용", "김장훈", 0, 0, "NONE", "NONE", dateUtil.currentDateInTimestamp(), dateUtil.currentDateInTimestamp(), null));
+        noticeRepository.save(new Notice("5번째 제목", "5번째 내용", "김장훈", 0, 0, "NONE", "NONE", dateUtil.currentDateInTimestamp(), dateUtil.currentDateInTimestamp(), null));
+        noticeRepository.save(new Notice("5번째 제목", "5번째 내용", "김장훈", 0, 0, "NONE", "NONE", dateUtil.currentDateInTimestamp(), dateUtil.currentDateInTimestamp(), null));
+        noticeRepository.save(new Notice("5번째 제목", "5번째 내용", "김장훈", 0, 0, "NONE", "NONE", dateUtil.currentDateInTimestamp(), dateUtil.currentDateInTimestamp(), null));
+        noticeRepository.save(new Notice("5번째 제목", "5번째 내용", "김장훈", 0, 0, "NONE", "NONE", dateUtil.currentDateInTimestamp(), dateUtil.currentDateInTimestamp(), null));
+        noticeRepository.save(new Notice("5번째 제목", "5번째 내용", "김장훈", 0, 0, "NONE", "NONE", dateUtil.currentDateInTimestamp(), dateUtil.currentDateInTimestamp(), null));
+        noticeRepository.save(new Notice("5번째 제목", "5번째 내용", "김장훈", 0, 0, "NONE", "NONE", dateUtil.currentDateInTimestamp(), dateUtil.currentDateInTimestamp(), null));
+        noticeRepository.save(new Notice("5번째 제목", "5번째 내용", "김장훈", 0, 0, "NONE", "NONE", dateUtil.currentDateInTimestamp(), dateUtil.currentDateInTimestamp(), null));
+        noticeRepository.save(new Notice("5번째 제목", "5번째 내용", "김장훈", 0, 0, "NONE", "NONE", dateUtil.currentDateInTimestamp(), dateUtil.currentDateInTimestamp(), null));
+        noticeRepository.save(new Notice("5번째 제목", "5번째 내용", "김장훈", 0, 0, "NONE", "NONE", dateUtil.currentDateInTimestamp(), dateUtil.currentDateInTimestamp(), null));
+        noticeRepository.save(new Notice("5번째 제목", "5번째 내용", "김장훈", 0, 0, "NONE", "NONE", dateUtil.currentDateInTimestamp(), dateUtil.currentDateInTimestamp(), null));
+        noticeRepository.save(new Notice("5번째 제목", "5번째 내용", "김장훈", 0, 0, "NONE", "NONE", dateUtil.currentDateInTimestamp(), dateUtil.currentDateInTimestamp(), null));
+        noticeRepository.save(new Notice("5번째 제목", "5번째 내용", "김장훈", 0, 0, "NONE", "NONE", dateUtil.currentDateInTimestamp(), dateUtil.currentDateInTimestamp(), null));
+        noticeRepository.save(new Notice("5번째 제목", "5번째 내용", "김장훈", 0, 0, "NONE", "NONE", dateUtil.currentDateInTimestamp(), dateUtil.currentDateInTimestamp(), null));
+        noticeRepository.save(new Notice("5번째 제목", "5번째 내용", "김장훈", 0, 0, "NONE", "NONE", dateUtil.currentDateInTimestamp(), dateUtil.currentDateInTimestamp(), null));
+        noticeRepository.save(new Notice("5번째 제목", "5번째 내용", "김장훈", 0, 0, "NONE", "NONE", dateUtil.currentDateInTimestamp(), dateUtil.currentDateInTimestamp(), null));
+        noticeRepository.save(new Notice("5번째 제목", "5번째 내용", "김장훈", 0, 0, "NONE", "NONE", dateUtil.currentDateInTimestamp(), dateUtil.currentDateInTimestamp(), null));
+        noticeRepository.save(new Notice("5번째 제목", "5번째 내용", "김장훈", 0, 0, "NONE", "NONE", dateUtil.currentDateInTimestamp(), dateUtil.currentDateInTimestamp(), null));
+        noticeRepository.save(new Notice("5번째 제목", "5번째 내용", "김장훈", 0, 0, "NONE", "NONE", dateUtil.currentDateInTimestamp(), dateUtil.currentDateInTimestamp(), null));
+        noticeRepository.save(new Notice("5번째 제목", "5번째 내용", "김장훈", 0, 0, "NONE", "NONE", dateUtil.currentDateInTimestamp(), dateUtil.currentDateInTimestamp(), null));
+        noticeRepository.save(new Notice("5번째 제목", "5번째 내용", "김장훈", 0, 0, "NONE", "NONE", dateUtil.currentDateInTimestamp(), dateUtil.currentDateInTimestamp(), null));
+        noticeRepository.save(new Notice("5번째 제목", "5번째 내용", "김장훈", 0, 0, "NONE", "NONE", dateUtil.currentDateInTimestamp(), dateUtil.currentDateInTimestamp(), null));
     }
 
 }
