@@ -251,6 +251,8 @@
       search() {
         var keyword = this.keyword;
 
+        if(keyword === '' || keyword === null){return false;}
+
         axios.get('http://localhost:8080/notices/search', {
           params:{
             keyword: keyword
@@ -276,7 +278,7 @@
           });
 
         // 댓글 목록
-        this.replyDist = false;
+        this.replyDist = true;
 
         axios.get('http://localhost:8080/replies/notice/'+index)
           .then(response => {
@@ -325,7 +327,7 @@
             this.replyDist = true;
             this.editReplyId = 0;
 
-            axios.get('http://localhost:8080/replies/notice/'+index)
+            axios.get('http://localhost:8080/replies/notice/' + response.data.data.noticeid)
               .then(response => {
                 this.replies = response.data.data;
               })
